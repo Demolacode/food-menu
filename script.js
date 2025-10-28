@@ -6,6 +6,26 @@
    =================================== */
 
 // ===================================
+// FIREBASE CONFIGURATION (New)
+// ===================================
+const firebaseConfig = {
+    apiKey: "AIzaSyAp664yZBCUoLqtFA90v6cNw9KoFW6Y5sE",
+    authDomain: "motun-s-kitchen--review.firebaseapp.com",
+    projectId: "motun-s-kitchen--review",
+    storageBucket: "motun-s-kitchen--review.firebasestorage.app",
+    messagingSenderId: "441300806713",
+    appId: "1:441300806713:web:d58dc47d533445645271e8",
+    measurementId: "G-YFMNRX6N58"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
+const db = firebase.firestore();
+const reviewsCollection = db.collection('reviews');
+
+
+// ===================================
 // MENU DATA
 // ===================================
 const menuItems = [
@@ -228,13 +248,8 @@ let cart = [];
 function loadCart() {
     try {
         const savedCart = localStorage.getItem('motunKitchenCart');
-        console.log('Attempting to load cart from localStorage:', savedCart ? 'Found data' : 'No data');
         if (savedCart) {
             cart = JSON.parse(savedCart);
-            console.log('Cart loaded successfully. Length:', cart.length);
-        } else {
-            cart = [];
-            console.log('No saved cart found, starting empty.');
         }
     } catch (e) {
         console.error('Failed to load cart from localStorage:', e);
@@ -246,7 +261,6 @@ function loadCart() {
 function saveCart() {
     try {
         localStorage.setItem('motunKitchenCart', JSON.stringify(cart));
-        console.log('Cart saved to localStorage. Length:', cart.length);
     } catch (e) {
         console.error('Failed to save cart to localStorage:', e);
     }
@@ -261,48 +275,32 @@ function updateCartCount() {
     });
 }
 
-/**
- * Shows a notification message on the screen.
- * @param {string} message The message to display.
- */
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'cart-notification';
     notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
     document.body.appendChild(notification);
-
-    // Animate in
     setTimeout(() => {
         notification.classList.add('show');
     }, 10);
-
-    // Animate out and remove
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => {
             document.body.removeChild(notification);
-        }, 500); // Wait for transition to finish
+        }, 500);
     }, 3000);
 }
-
 
 function addToCart(itemId) {
     const item = menuItems.find(item => item.id === itemId);
     const existingItem = cart.find(cartItem => cartItem.id === itemId);
-
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push({
-            ...item,
-            quantity: 1
-        });
+        cart.push({ ...item, quantity: 1 });
     }
-
     saveCart();
     showNotification(`${item.name} added to cart!`);
-
-    // Animate cart icon
     const cartLink = document.querySelector('.cart-link');
     if (cartLink) {
         cartLink.classList.add('bounce');
@@ -335,9 +333,6 @@ function updateQuantity(itemId, newQuantity) {
     }
 }
 
-/**
- * Clears all items from the cart.
- */
 function clearAllCart() {
     cart = [];
     saveCart();
@@ -355,26 +350,18 @@ function initHeroSlider() {
     const slides = document.querySelectorAll('.hero-slide');
     const dots = document.querySelectorAll('.dot');
     let currentSlide = 0;
-
     if (slides.length === 0) return;
-
     function showSlide(index) {
         slides.forEach(slide => slide.classList.remove('active'));
         dots.forEach(dot => dot.classList.remove('active'));
-
         slides[index].classList.add('active');
         dots[index].classList.add('active');
     }
-
     function nextSlide() {
         currentSlide = (currentSlide + 1) % slides.length;
         showSlide(currentSlide);
     }
-
-    // Auto advance slides
     setInterval(nextSlide, 5000);
-
-    // Dot navigation
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             currentSlide = index;
@@ -389,13 +376,10 @@ function initHeroSlider() {
 function displayMenuItems(filter = 'all') {
     const menuGrid = document.getElementById('menu-grid');
     if (!menuGrid) return;
-
     const filteredItems = filter === 'all'
         ? menuItems
         : menuItems.filter(item => item.category === filter);
-
     menuGrid.innerHTML = '';
-
     filteredItems.forEach((item, index) => {
         const delay = (index % 8) * 100;
         const menuCard = `
@@ -424,12 +408,10 @@ function displayMenuItems(filter = 'all') {
 
 function setupCategoryFilter() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-
             const category = button.getAttribute('data-category');
             displayMenuItems(category);
         });
@@ -444,37 +426,24 @@ function displayCartItems() {
     const emptyCart = document.getElementById('empty-cart');
     const orderSummary = document.getElementById('order-summary');
     const cartHeader = document.querySelector('.cart-header');
-
-    if (!cartContainer) {
-        console.error('Cart container (#cart-items-container) not found on page!');
-        return;
-    }
-    console.log('displayCartItems called. Cart length:', cart.length);
-
+    if (!cartContainer) return;
     if (cart.length === 0) {
-        console.log('Cart is empty - showing empty state.');
-        if(cartHeader) cartHeader.style.display = 'none';
+        if (cartHeader) cartHeader.style.display = 'none';
         cartContainer.style.display = 'none';
         emptyCart.classList.remove('d-none');
         if (orderSummary) orderSummary.style.display = 'none';
         return;
     }
-    
-    console.log('Cart has items - populating display.');
-    if(cartHeader) cartHeader.style.display = 'flex';
+    if (cartHeader) cartHeader.style.display = 'flex';
     cartContainer.style.display = 'block';
     emptyCart.classList.add('d-none');
     if (orderSummary) orderSummary.style.display = 'block';
-
     cartContainer.innerHTML = '';
-
     cart.forEach(item => {
         const cartItem = `
             <div class="cart-item">
                 <div class="row align-items-center">
-                    <div class="col-md-2 col-3 mb-3 mb-md-0">
-                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
-                    </div>
+                    <div class="col-md-2 col-3 mb-3 mb-md-0"><img src="${item.image}" alt="${item.name}" class="cart-item-img"></div>
                     <div class="col-md-4 col-9 mb-3 mb-md-0">
                         <h5 class="fw-bold mb-1">${item.name}</h5>
                         <small class="text-muted text-uppercase">${item.category}</small>
@@ -482,17 +451,12 @@ function displayCartItems() {
                     <div class="col-md-3 col-6 mb-3 mb-md-0">
                         <div class="quantity-control">
                             <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
-                            <input type="number" class="quantity-input" value="${item.quantity}" 
-                                   onchange="updateQuantity(${item.id}, parseInt(this.value))" min="1">
+                            <input type="number" class="quantity-input" value="${item.quantity}" onchange="updateQuantity(${item.id}, parseInt(this.value))" min="1">
                             <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
                         </div>
                     </div>
-                    <div class="col-md-2 col-4 text-end">
-                        <div class="fw-bold text-success">₦${(item.price * item.quantity).toLocaleString()}</div>
-                    </div>
-                    <div class="col-md-1 col-2 text-end">
-                        <i class="fas fa-trash remove-btn" onclick="removeFromCart(${item.id})" title="Remove item"></i>
-                    </div>
+                    <div class="col-md-2 col-4 text-end"><div class="fw-bold text-success">₦${(item.price * item.quantity).toLocaleString()}</div></div>
+                    <div class="col-md-1 col-2 text-end"><i class="fas fa-trash remove-btn" onclick="removeFromCart(${item.id})" title="Remove item"></i></div>
                 </div>
             </div>
         `;
@@ -500,16 +464,13 @@ function displayCartItems() {
     });
 }
 
-
 function updateOrderSummary() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const deliveryFee = cart.length > 0 ? 300 : 0;
     const total = subtotal + deliveryFee;
-
     const subtotalElement = document.getElementById('subtotal');
     const deliveryElement = document.getElementById('delivery-fee');
     const totalElement = document.getElementById('total');
-
     if (subtotalElement) subtotalElement.textContent = subtotal.toLocaleString();
     if (deliveryElement) deliveryElement.textContent = deliveryFee.toLocaleString();
     if (totalElement) totalElement.textContent = total.toLocaleString();
@@ -518,175 +479,124 @@ function updateOrderSummary() {
 function setupCheckout() {
     const checkoutBtn = document.getElementById('checkout-btn');
     if (!checkoutBtn) return;
-
     checkoutBtn.addEventListener('click', () => {
         if (cart.length === 0) {
             alert('Your cart is empty!');
             return;
         }
-
         let message = "Hello Motun's Kitchen! I would like to place an order:\n\n";
-
         cart.forEach(item => {
             message += `${item.quantity}x ${item.name} @ ₦${item.price.toLocaleString()} each = ₦${(item.price * item.quantity).toLocaleString()}\n`;
         });
-
         const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const deliveryFee = 300;
         const total = subtotal + deliveryFee;
-
         message += `\nSubtotal: ₦${subtotal.toLocaleString()}`;
         message += `\nDelivery Fee: ₦${deliveryFee.toLocaleString()}`;
         message += `\n*Total: ₦${total.toLocaleString()}*`;
         message += `\n\nPlease confirm my order. Thank you!`;
-
         const encodedMessage = encodeURIComponent(message);
         const whatsappURL = `https://wa.me/2347026325803?text=${encodedMessage}`;
-
         window.open(whatsappURL, '_blank');
     });
 }
 
 // ===================================
-// NAVBAR SCROLL EFFECT
+// NAVBAR SCROLL EFFECT & OTHER UI
 // ===================================
 function initNavbarScroll() {
     const navbar = document.getElementById('mainNav');
     if (!navbar) return;
-
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+        navbar.classList.toggle('scrolled', window.scrollY > 100);
     });
 }
 
-// ===================================
-// SCROLL TO TOP BUTTON
-// ===================================
 function initScrollToTop() {
     const scrollBtn = document.getElementById('scrollTopBtn');
     if (!scrollBtn) return;
-
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            scrollBtn.classList.add('show');
-        } else {
-            scrollBtn.classList.remove('show');
-        }
+        scrollBtn.classList.toggle('show', window.scrollY > 300);
     });
-
     scrollBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
 
-// ===================================
-// ANIMATION ON SCROLL
-// ===================================
 function initAOS() {
     if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true,
-            offset: 100
-        });
+        AOS.init({ duration: 800, easing: 'ease-in-out', once: true, offset: 100 });
     }
 }
 
 // ===================================
-// REVIEW MANAGEMENT
+// REVIEW MANAGEMENT (FIREBASE VERSION)
 // ===================================
-/**
- * Creates the HTML for the star ratings based on the score.
- * @param {number} rating - The rating score (1-5).
- * @returns {string} - The HTML string for the stars.
- */
 function createStarRating(rating) {
     let stars = '';
     for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars += '<i class="fas fa-star"></i>';
-        } else {
-            stars += '<i class="far fa-star"></i>';
-        }
+        stars += `<i class="${i <= rating ? 'fas' : 'far'} fa-star"></i>`;
     }
     return stars;
 }
 
-/**
- * Creates an HTML card for a single review object.
- * @param {object} review - The review object.
- * @returns {string} - The HTML string for the review card.
- */
 function createReviewCard(review) {
-    const reviewDate = new Date(review.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+    // Firestore stores timestamps; we need to convert them to JS Date objects
+    const reviewDate = review.date.toDate().toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
     });
-
     return `
         <div class="col-md-6 col-lg-4" data-aos="fade-up">
             <div class="review-card-modern">
                 <div class="review-header">
-                    <div class="reviewer-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="reviewer-info">
-                        <h5 class="reviewer-name">${review.name}</h5>
-                    </div>
+                    <div class="reviewer-avatar"><i class="fas fa-user"></i></div>
+                    <div class="reviewer-info"><h5 class="reviewer-name">${review.name}</h5></div>
                 </div>
-                <div class="review-rating">
-                    ${createStarRating(review.rating)}
-                </div>
+                <div class="review-rating">${createStarRating(review.rating)}</div>
                 <p class="review-text">${review.comment}</p>
                 <div class="review-footer">
                     <span class="review-date"><i class="far fa-clock"></i> ${reviewDate}</span>
-                    <div class="review-verified">
-                        <i class="fas fa-check-circle"></i> Verified Review
-                    </div>
+                    <div class="review-verified"><i class="fas fa-check-circle"></i> Verified Review</div>
                 </div>
             </div>
         </div>
     `;
 }
 
-/**
- * Loads reviews from localStorage and displays them on the page.
- */
-function displayReviews() {
+async function displayReviews() {
     const reviewsGrid = document.getElementById('reviews-grid');
     if (!reviewsGrid) return;
 
-    const reviews = JSON.parse(localStorage.getItem('motunReviews')) || [];
+    reviewsGrid.innerHTML = '<p class="text-center col-12">Loading reviews...</p>';
 
-    if (reviews.length === 0) {
-        reviewsGrid.innerHTML = '<p class="text-center col-12">No reviews yet. Be the first to write one!</p>';
-        return;
+    try {
+        // Query reviews and order them by date, newest first
+        const querySnapshot = await reviewsCollection.orderBy("date", "desc").get();
+        
+        if (querySnapshot.empty) {
+            reviewsGrid.innerHTML = '<p class="text-center col-12">No reviews yet. Be the first to write one!</p>';
+            return;
+        }
+
+        reviewsGrid.innerHTML = '';
+        querySnapshot.forEach(doc => {
+            reviewsGrid.innerHTML += createReviewCard(doc.data());
+        });
+        // Re-initialize AOS to animate the newly added cards
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+    } catch (error) {
+        console.error("Error fetching reviews:", error);
+        reviewsGrid.innerHTML = '<p class="text-center col-12 text-danger">Could not load reviews at this time.</p>';
     }
-
-    reviewsGrid.innerHTML = '';
-    // Display newest reviews first
-    reviews.slice().reverse().forEach(review => {
-        reviewsGrid.innerHTML += createReviewCard(review);
-    });
 }
 
-/**
- * Sets up the review form submission logic.
- */
 function setupReviewForm() {
     const reviewForm = document.getElementById('review-form');
     if (!reviewForm) return;
 
-    reviewForm.addEventListener('submit', (e) => {
+    reviewForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const formData = new FormData(reviewForm);
@@ -695,8 +605,13 @@ function setupReviewForm() {
             email: formData.get('email'),
             rating: parseInt(formData.get('rating')),
             comment: formData.get('comment'),
-            date: new Date().toISOString()
+            date: firebase.firestore.FieldValue.serverTimestamp() // Use server timestamp
         };
+        
+        if (!newReview.name || !newReview.rating || !newReview.comment) {
+            alert("Please fill out all required fields.");
+            return;
+        }
 
         const submitBtn = reviewForm.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
@@ -704,36 +619,23 @@ function setupReviewForm() {
         try {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SUBMITTING...';
             submitBtn.disabled = true;
-            
-            // Save to localStorage
-            const reviews = JSON.parse(localStorage.getItem('motunReviews')) || [];
-            reviews.push(newReview);
-            localStorage.setItem('motunReviews', JSON.stringify(reviews));
 
-            // Show success message
+            // Add a new document with a generated id to the 'reviews' collection
+            await reviewsCollection.add(newReview);
+
             document.getElementById('form-success').classList.remove('d-none');
             document.getElementById('form-error').classList.add('d-none');
             reviewForm.reset();
 
-            // Add the new review to the top of the list without a full reload
-            const reviewsGrid = document.getElementById('reviews-grid');
-            if (reviewsGrid) {
-                 // If it was the first review, clear the "No reviews" message
-                if (reviews.length === 1) {
-                    reviewsGrid.innerHTML = '';
-                }
-                const newCard = document.createElement('div');
-                newCard.innerHTML = createReviewCard(newReview);
-                // Prepend to show the newest first
-                reviewsGrid.insertBefore(newCard.firstChild, reviewsGrid.firstChild);
-            }
+            // Refresh the reviews list to show the new one
+            await displayReviews();
 
             setTimeout(() => {
                 document.getElementById('form-success').classList.add('d-none');
             }, 5000);
 
         } catch (error) {
-            console.error("Failed to save review:", error);
+            console.error("Error submitting review:", error);
             document.getElementById('form-error').classList.remove('d-none');
             document.getElementById('form-success').classList.add('d-none');
         } finally {
@@ -744,250 +646,45 @@ function setupReviewForm() {
 }
 
 // ===================================
-// SMOOTH SCROLL FOR ANCHOR LINKS
+// GENERAL INITIALIZATION
 // ===================================
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             if (href === '#') return;
-
             e.preventDefault();
             const target = document.querySelector(href);
-
             if (target) {
                 const offsetTop = target.offsetTop - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
             }
         });
     });
 }
 
-// ===================================
-// ADD NOTIFICATION STYLES DYNAMICALLY
-// ===================================
 function addNotificationStyles() {
     const style = document.createElement('style');
     style.textContent = `
         .cart-notification {
-            position: fixed;
-            top: 100px;
-            right: -300px;
-            background: linear-gradient(135deg, #008751, #006d41);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            z-index: 9999;
-            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            font-weight: 600;
+            position: fixed; top: 100px; right: -300px; background: linear-gradient(135deg, #008751, #006d41);
+            color: white; padding: 1rem 1.5rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex; align-items: center; gap: 0.75rem; z-index: 9999;
+            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); font-weight: 600;
         }
-        
-        .cart-notification.show {
-            right: 20px;
-        }
-        
-        .cart-notification i {
-            font-size: 1.3rem;
-            color: #FFD700;
-        }
-        
-        .cart-link.bounce {
-            animation: cartBounce 0.5s ease;
-        }
-        
+        .cart-notification.show { right: 20px; }
+        .cart-notification i { font-size: 1.3rem; color: #FFD700; }
+        .cart-link.bounce { animation: cartBounce 0.5s ease; }
         @keyframes cartBounce {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            50% { transform: scale(0.9); }
-            75% { transform: scale(1.1); }
-        }
-        
-        @media (max-width: 768px) {
-            .cart-notification {
-                right: -250px;
-                font-size: 0.9rem;
-                padding: 0.75rem 1rem;
-            }
-            
-            .cart-notification.show {
-                right: 10px;
-            }
+            0%, 100% { transform: scale(1); } 25% { transform: scale(1.2); }
+            50% { transform: scale(0.9); } 75% { transform: scale(1.1); }
         }
     `;
     document.head.appendChild(style);
 }
 
 // ===================================
-// PAGE LOAD ANIMATIONS
-// ===================================
-function initPageAnimations() {
-    // Fade in page content
-    document.body.style.opacity = '0';
-    window.addEventListener('load', () => {
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = '1';
-    });
-}
-
-// ===================================
-// MOBILE MENU CLOSE ON LINK CLICK
-// ===================================
-function initMobileMenuClose() {
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth < 992 && navbarCollapse.classList.contains('show')) {
-                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-                bsCollapse.hide();
-            }
-        });
-    });
-}
-
-// ===================================
-// LAZY LOAD IMAGES
-// ===================================
-function initLazyLoad() {
-    const images = document.querySelectorAll('img[data-src]');
-
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                observer.unobserve(img);
-            }
-        });
-    });
-
-    images.forEach(img => imageObserver.observe(img));
-}
-
-// ===================================
-// UTILITY FUNCTIONS
-// ===================================
-function formatCurrency(amount) {
-    return `₦${amount.toLocaleString()}`;
-}
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// ===================================
-// CONSOLE WELCOME MESSAGE
-// ===================================
-function showWelcomeMessage() {
-    const styles = [
-        'color: #008751',
-        'font-size: 20px',
-        'font-weight: bold',
-        'text-shadow: 2px 2px 4px rgba(0,0,0,0.2)'
-    ].join(';');
-
-    console.log('%c🍲 Welcome to Motun\'s Kitchen! 🍲', styles);
-    console.log('%cAuthentic Nigerian Cuisine Delivered Fresh', 'color: #FFD700; font-size: 14px;');
-    console.log('%cWebsite by Motun\'s Kitchen © 2025', 'color: #6C757D; font-size: 12px;');
-}
-
-// ===================================
-// KEYBOARD NAVIGATION
-// ===================================
-function initKeyboardNavigation() {
-    document.addEventListener('keydown', (e) => {
-        // Escape key to close mobile menu
-        if (e.key === 'Escape') {
-            const navbarCollapse = document.querySelector('.navbar-collapse');
-            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-                bsCollapse.hide();
-            }
-        }
-    });
-}
-
-// ===================================
-// PERFORMANCE OPTIMIZATION
-// ===================================
-function optimizePerformance() {
-    // Preload critical images
-    const criticalImages = [
-        '/asset/logo.png'
-    ];
-
-    criticalImages.forEach(src => {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'image';
-        link.href = src;
-        document.head.appendChild(link);
-    });
-}
-
-// ===================================
-// DETECT USER PREFERENCES
-// ===================================
-function detectUserPreferences() {
-    // Detect reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-        document.body.classList.add('reduced-motion');
-        // Disable AOS animations
-        if (typeof AOS !== 'undefined') {
-            AOS.init({ disable: true });
-        }
-    }
-}
-
-// ===================================
-// ERROR HANDLING
-// ===================================
-function setupErrorHandling() {
-    window.addEventListener('error', (e) => {
-        console.error('An error occurred:', e.error);
-        // You can add custom error reporting here
-    });
-
-    window.addEventListener('unhandledrejection', (e) => {
-        console.error('Unhandled promise rejection:', e.reason);
-        // You can add custom error reporting here
-    });
-}
-
-// ===================================
-// ANALYTICS (OPTIONAL)
-// ===================================
-function trackEvent(eventName, eventData = {}) {
-    // Placeholder for analytics tracking
-    console.log('Event tracked:', eventName, eventData);
-
-    // Example: Google Analytics
-    // if (typeof gtag !== 'undefined') {
-    //     gtag('event', eventName, eventData);
-    // }
-}
-
-// ===================================
-// INITIALIZE ON DIFFERENT PAGES
+// PAGE-SPECIFIC INITIALIZERS
 // ===================================
 function initHomePage() {
     displayMenuItems();
@@ -996,127 +693,33 @@ function initHomePage() {
 }
 
 function initCartPage() {
-    console.log('initCartPage called. Current pathname:', window.location.pathname);
-    console.log('Cart length before display:', cart.length);
-    loadCart(); // Force reload for safety
     displayCartItems();
     updateOrderSummary();
     setupCheckout();
-    // The clear cart button uses onclick in the HTML, so no event listener setup is needed here.
 }
 
 function initReviewsPage() {
-    displayReviews(); // Load existing reviews
-    setupReviewForm(); // Set up the form for new reviews
-}
-
-function initAboutPage() {
-    // About page specific initialization
-    console.log('About page initialized');
+    displayReviews();
+    setupReviewForm();
 }
 
 // ===================================
 // MAIN INITIALIZATION
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Load cart data
     loadCart();
-    console.log('DOM loaded. Cart length after initial load:', cart.length);
-
-    // Add notification styles
     addNotificationStyles();
-
-    // Initialize common features
     initNavbarScroll();
     initScrollToTop();
     initAOS();
     initSmoothScroll();
-    initMobileMenuClose();
-    initKeyboardNavigation();
-    detectUserPreferences();
-    setupErrorHandling();
-    optimizePerformance();
 
-    // Show welcome message
-    showWelcomeMessage();
-
-    // Page-specific initialization
     const currentPage = window.location.pathname;
-    console.log('Detected page:', currentPage);
-
-    if (currentPage.includes('index.html') || currentPage.endsWith('/') || currentPage === '') {
+    if (currentPage.includes('index.html') || currentPage.endsWith('/')) {
         initHomePage();
     } else if (currentPage.includes('cart.html')) {
-        // Small delay to ensure DOM is fully ready on Netlify
-        setTimeout(() => {
-            initCartPage();
-        }, 100);
+        initCartPage();
     } else if (currentPage.includes('reviews.html')) {
         initReviewsPage();
-    } else if (currentPage.includes('about.html')) {
-        initAboutPage();
     }
-
-    // Track page view
-    trackEvent('page_view', { page: currentPage });
 });
-
-// ===================================
-// WINDOW LOAD EVENT
-// ===================================
-window.addEventListener('load', () => {
-    // Initialize lazy loading
-    initLazyLoad();
-
-    // Remove loading class if exists
-    document.body.classList.remove('loading');
-});
-
-// ===================================
-// WINDOW RESIZE HANDLER
-// ===================================
-const handleResize = debounce(() => {
-    // Handle responsive adjustments
-    if (window.innerWidth > 992) {
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-            const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-            bsCollapse.hide();
-        }
-    }
-}, 250);
-
-window.addEventListener('resize', handleResize);
-
-// ===================================
-// BEFORE UNLOAD (OPTIONAL)
-// ===================================
-window.addEventListener('beforeunload', (e) => {
-    // Save any pending data
-    saveCart();
-});
-
-// ===================================
-// SERVICE WORKER REGISTRATION (OPTIONAL)
-// ===================================
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // Uncomment to enable service worker for PWA
-        // navigator.serviceWorker.register('/sw.js')
-        //     .then(reg => console.log('Service Worker registered'))
-        //     .catch(err => console.log('Service Worker registration failed:', err));
-    });
-}
-
-// ===================================
-// EXPORT FUNCTIONS (FOR TESTING)
-// ===================================
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        formatCurrency,
-        menuItems
-    };
-}
