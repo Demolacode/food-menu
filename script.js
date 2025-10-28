@@ -208,7 +208,7 @@ const menuItems = [
         category: "sides",
         price: 500,
         description: "Tasty coleslaw",
-        image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238"
+        image: "https://loluscuisine.com/wp-content/uploads/2022/12/Coleslaw1.jpg.webp"
     },
     {
         id: 26,
@@ -1022,3 +1022,4 @@ if (typeof module !== 'undefined' && module.exports) {
     };
 
 }
+
