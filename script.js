@@ -126,7 +126,7 @@ const menuItems = [
         name: "Parfait",
         category: "drinks",
         price: 3000,
-        description: "Yummy Parfait dessert made with love",
+        description: "Yummy Parfait made with love",
         image: "https://agronigeria.ng/wp-content/uploads/2025/07/Parfait-585x390.jpg"
     },
     {
@@ -164,7 +164,7 @@ const menuItems = [
     {
         id: 20,
         name: "Fried Plantain",
-        category: "sides",
+        category: "mains",
         price: 50,
         description: "Tasty Fried Plantain - per pieces",
         image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg"
@@ -197,7 +197,7 @@ const menuItems = [
     {
         id: 24,
         name: "Catfish Pepper Soup",
-        category: "mains",
+        category: "sides",
         price: 5000,
         description: "Tasty Pepper Soup - per plate",
         image: "https://dooneyskitchen.com/wp-content/uploads/2021/05/fresh-fish-peppersoup.jpg"
@@ -205,10 +205,10 @@ const menuItems = [
     {
         id: 25,
         name: "Coleslaw",
-        category: "sides",
+        category: "mains",
         price: 500,
         description: "Tasty coleslaw",
-        image: "https://loluscuisine.com/wp-content/uploads/2022/12/Coleslaw1.jpg.webp"
+        image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238"
     },
     {
         id: 26,
@@ -503,7 +503,7 @@ function displayCartItems() {
 
 function updateOrderSummary() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const deliveryFee = cart.length > 0 ? 400 : 0;
+    const deliveryFee = cart.length > 0 ? 300 : 0;
     const total = subtotal + deliveryFee;
 
     const subtotalElement = document.getElementById('subtotal');
@@ -532,7 +532,7 @@ function setupCheckout() {
         });
 
         const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const deliveryFee = 400;
+        const deliveryFee = 300;
         const total = subtotal + deliveryFee;
 
         message += `\nSubtotal: ₦${subtotal.toLocaleString()}`;
@@ -601,20 +601,102 @@ function initAOS() {
 }
 
 // ===================================
-// REVIEW FORM
+// REVIEW MANAGEMENT
 // ===================================
+/**
+ * Creates the HTML for the star ratings based on the score.
+ * @param {number} rating - The rating score (1-5).
+ * @returns {string} - The HTML string for the stars.
+ */
+function createStarRating(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<i class="fas fa-star"></i>';
+        } else {
+            stars += '<i class="far fa-star"></i>';
+        }
+    }
+    return stars;
+}
+
+/**
+ * Creates an HTML card for a single review object.
+ * @param {object} review - The review object.
+ * @returns {string} - The HTML string for the review card.
+ */
+function createReviewCard(review) {
+    const reviewDate = new Date(review.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    return `
+        <div class="col-md-6 col-lg-4" data-aos="fade-up">
+            <div class="review-card-modern">
+                <div class="review-header">
+                    <div class="reviewer-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="reviewer-info">
+                        <h5 class="reviewer-name">${review.name}</h5>
+                    </div>
+                </div>
+                <div class="review-rating">
+                    ${createStarRating(review.rating)}
+                </div>
+                <p class="review-text">${review.comment}</p>
+                <div class="review-footer">
+                    <span class="review-date"><i class="far fa-clock"></i> ${reviewDate}</span>
+                    <div class="review-verified">
+                        <i class="fas fa-check-circle"></i> Verified Review
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Loads reviews from localStorage and displays them on the page.
+ */
+function displayReviews() {
+    const reviewsGrid = document.getElementById('reviews-grid');
+    if (!reviewsGrid) return;
+
+    const reviews = JSON.parse(localStorage.getItem('motunReviews')) || [];
+
+    if (reviews.length === 0) {
+        reviewsGrid.innerHTML = '<p class="text-center col-12">No reviews yet. Be the first to write one!</p>';
+        return;
+    }
+
+    reviewsGrid.innerHTML = '';
+    // Display newest reviews first
+    reviews.slice().reverse().forEach(review => {
+        reviewsGrid.innerHTML += createReviewCard(review);
+    });
+}
+
+/**
+ * Sets up the review form submission logic.
+ */
 function setupReviewForm() {
     const reviewForm = document.getElementById('review-form');
     if (!reviewForm) return;
 
-    reviewForm.addEventListener('submit', async (e) => {
+    reviewForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const formData = new FormData(reviewForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const rating = formData.get('rating');
-        const comment = formData.get('comment');
+        const newReview = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            rating: parseInt(formData.get('rating')),
+            comment: formData.get('comment'),
+            date: new Date().toISOString()
+        };
 
         const submitBtn = reviewForm.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
@@ -622,20 +704,36 @@ function setupReviewForm() {
         try {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SUBMITTING...';
             submitBtn.disabled = true;
-
-            // Simulate form submission (replace with actual API call)
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Save to localStorage
+            const reviews = JSON.parse(localStorage.getItem('motunReviews')) || [];
+            reviews.push(newReview);
+            localStorage.setItem('motunReviews', JSON.stringify(reviews));
 
             // Show success message
             document.getElementById('form-success').classList.remove('d-none');
             document.getElementById('form-error').classList.add('d-none');
             reviewForm.reset();
 
+            // Add the new review to the top of the list without a full reload
+            const reviewsGrid = document.getElementById('reviews-grid');
+            if (reviewsGrid) {
+                 // If it was the first review, clear the "No reviews" message
+                if (reviews.length === 1) {
+                    reviewsGrid.innerHTML = '';
+                }
+                const newCard = document.createElement('div');
+                newCard.innerHTML = createReviewCard(newReview);
+                // Prepend to show the newest first
+                reviewsGrid.insertBefore(newCard.firstChild, reviewsGrid.firstChild);
+            }
+
             setTimeout(() => {
                 document.getElementById('form-success').classList.add('d-none');
             }, 5000);
 
         } catch (error) {
+            console.error("Failed to save review:", error);
             document.getElementById('form-error').classList.remove('d-none');
             document.getElementById('form-success').classList.add('d-none');
         } finally {
@@ -908,7 +1006,8 @@ function initCartPage() {
 }
 
 function initReviewsPage() {
-    setupReviewForm();
+    displayReviews(); // Load existing reviews
+    setupReviewForm(); // Set up the form for new reviews
 }
 
 function initAboutPage() {
@@ -1020,6 +1119,4 @@ if (typeof module !== 'undefined' && module.exports) {
         formatCurrency,
         menuItems
     };
-
 }
-
