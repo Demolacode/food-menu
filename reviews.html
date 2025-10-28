@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews - Motun's Kitchen</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="/asset/logo.png" alt="Motun's Kitchen" class="logo-img">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="reviews.html">REVIEWS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cart-link" href="cart.html">
+                            <i class="fas fa-shopping-cart"></i> CART
+                            <span class="cart-badge" id="cart-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Reviews Hero Section -->
+    <section class="page-hero reviews-hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <div class="hero-text-wrapper">
+                <div class="hero-badge" data-aos="fade-down">
+                    <i class="fas fa-star"></i> Customer Testimonials
+                </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="200">
+                    What Our <span class="highlight">Customers Say</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="400">
+                    Real reviews from real food lovers
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rating Summary Section -->
+    <section class="py-5 rating-summary-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="rating-summary-card" data-aos="fade-up">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 text-center border-end">
+                                <div class="overall-rating">
+                                    <h1 class="rating-number">5.0</h1>
+                                    <div class="rating-stars mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <p class="text-muted mb-0">Based on 150+ reviews</p>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="rating-breakdown">
+                                    <div class="rating-bar-item">
+                                        <span class="rating-label">5 stars</span>
+                                        <div class="progress rating-progress">
+                                            <div class="progress-bar" style="width: 85%"></div>
+                                        </div>
+                                        <span class="rating-percentage">85%</span>
+                                    </div>
+                                    <div class="rating-bar-item">
+                                        <span class="rating-label">4 stars</span>
+                                        <div class="progress rating-progress">
+                                            <div class="progress-bar" style="width: 10%"></div>
+                                        </div>
+                                        <span class="rating-percentage">10%</span>
+                                    </div>
+                                    <div class="rating-bar-item">
+                                        <span class="rating-label">3 stars</span>
+                                        <div class="progress rating-progress">
+                                            <div class="progress-bar" style="width: 3%"></div>
+                                        </div>
+                                        <span class="rating-percentage">3%</span>
+                                    </div>
+                                    <div class="rating-bar-item">
+                                        <span class="rating-label">2 stars</span>
+                                        <div class="progress rating-progress">
+                                            <div class="progress-bar" style="width: 1%"></div>
+                                        </div>
+                                        <span class="rating-percentage">1%</span>
+                                    </div>
+                                    <div class="rating-bar-item">
+                                        <span class="rating-label">1 star</span>
+                                        <div class="progress rating-progress">
+                                            <div class="progress-bar" style="width: 1%"></div>
+                                        </div>
+                                        <span class="rating-percentage">1%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Grid Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-badge">Testimonials</span>
+                <h2 class="section-title">Customer <span class="highlight">Experiences</span></h2>
+            </div>
+
+            <div class="row g-4">
+                <!-- Review 1 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="review-card-modern">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-info">
+                                <h5 class="reviewer-name"> Adebayo</h5>
+                                <p class="reviewer-location"><i class="fas fa-map-marker-alt"></i>Oyo, Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"The best Jollof Rice I've had outside my mother's kitchen! The flavors are authentic and the delivery was super fast. I'm definitely ordering again!"</p>
+                        <div class="review-footer">
+                            <span class="review-date"><i class="far fa-clock"></i> 2 weeks ago</span>
+                            <div class="review-verified">
+                                <i class="fas fa-check-circle"></i> Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="review-card-modern">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-info">
+                                <h5 class="reviewer-name">Oluwatosin</h5>
+                                <p class="reviewer-location"><i class="fas fa-map-marker-alt"></i> Oyo, Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"I ordered the Ewa Agonyi and it was absolutely delicious! Tasted just like home. Highly recommend Motun's Kitchen!"</p>
+                        <div class="review-footer">
+                            <span class="review-date"><i class="far fa-clock"></i> 1 month ago</span>
+                            <div class="review-verified">
+                                <i class="fas fa-check-circle"></i> Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="review-card-modern">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-info">
+                                <h5 class="reviewer-name">Funmi</h5>
+                                <p class="reviewer-location"><i class="fas fa-map-marker-alt"></i>Oyo, Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="review-text">"The Asun is perfectly spiced, Great service!"</p>
+                        <div class="review-footer">
+                            <span class="review-date"><i class="far fa-clock"></i> 3 weeks ago</span>
+                            <div class="review-verified">
+                                <i class="fas fa-check-circle"></i> Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="review-card-modern">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-info">
+                                <h5 class="reviewer-name">Tunde</h5>
+                                <p class="reviewer-location"><i class="fas fa-map-marker-alt"></i> Ibadan, Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"Amazing food! The Fried rice is tasty. Customer service was excellent, Will order again!"</p>
+                        <div class="review-footer">
+                            <span class="review-date"><i class="far fa-clock"></i> 1 week ago</span>
+                            <div class="review-verified">
+                                <i class="fas fa-check-circle"></i> Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 5 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="review-card-modern">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-info">
+                                <h5 class="reviewer-name">Johnson</h5>
+                                <p class="reviewer-location"><i class="fas fa-map-marker-alt"></i> Ibadan,Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text"> "Motun's Kitchen introduced me to amazing new flavors. The Jollof Rice is now my favorite dish!"</p>
+                        <div class="review-footer">
+                            <span class="review-date"><i class="far fa-clock"></i> 2 months ago</span>
+                            <div class="review-verified">
+                                <i class="fas fa-check-circle"></i> Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 6 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="review-card-modern">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-info">
+                                <h5 class="reviewer-name">Ngozi</h5>
+                                <p class="reviewer-location"><i class="fas fa-map-marker-alt"></i> Oyo, Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="review-text">"The Pepper Soup was exactly what I needed on a cold day. Spicy, flavorful, and comforting. Thank you Motun's Kitchen for bringing a taste of home!"</p>
+                        <div class="review-footer">
+                            <span class="review-date"><i class="far fa-clock"></i> 5 days ago</span>
+                            <div class="review-verified">
+                                <i class="fas fa-check-circle"></i> Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Review Form Section -->
+    <section class="py-5 review-form-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="review-form-card" data-aos="fade-up">
+                        <div class="text-center mb-4">
+                            <span class="section-badge">Share Your Experience</span>
+                            <h3 class="section-title">Write a <span class="highlight">Review</span></h3>
+                            <p class="text-muted">Tell us about your experience with Motun's Kitchen</p>
+                        </div>
+                        
+                        <!-- Success Message -->
+                        <div id="form-success" class="alert alert-success d-none" role="alert">
+                            <i class="fas fa-check-circle"></i> Thank you for your review! We appreciate your feedback.
+                        </div>
+                        
+                        <!-- Error Message -->
+                        <div id="form-error" class="alert alert-danger d-none" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> Oops! Something went wrong. Please try again.
+                        </div>
+
+                        <!-- Review Form -->
+                        <form id="review-form">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="reviewer-name" class="form-label fw-bold">Your Name *</label>
+                                    <input type="text" class="form-control form-control-lg" id="reviewer-name" name="name" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="reviewer-email" class="form-label fw-bold">Your Email *</label>
+                                    <input type="email" class="form-control form-control-lg" id="reviewer-email" name="email" required>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Rating *</label>
+                                    <div class="rating-input-modern">
+                                        <input type="radio" id="star5" name="rating" value="5" required>
+                                        <label for="star5"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star4" name="rating" value="4">
+                                        <label for="star4"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star3" name="rating" value="3">
+                                        <label for="star3"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star2" name="rating" value="2">
+                                        <label for="star2"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star1" name="rating" value="1">
+                                        <label for="star1"><i class="fas fa-star"></i></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="review-comment" class="form-label fw-bold">Your Review *</label>
+                                    <textarea class="form-control form-control-lg" id="review-comment" name="comment" rows="5" placeholder="Share your experience with us..." required></textarea>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary-custom btn-lg w-100">
+                                        <i class="fas fa-paper-plane"></i> Submit Review
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <h4 class="footer-title">MOTUN'S KITCHEN</h4>
+                        <p class="footer-text">Bringing the authentic taste of Nigerian cuisine to your table with love and tradition.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="https://wa.me/2347026325803" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Quick Links</h5>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="reviews.html">Reviews</a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Opening Hours</h5>
+                        <ul class="footer-hours">
+                            <li>Mon - Fri: 10:00 AM - 9:00 PM</li>
+                            <li>Saturday: 10:00 AM - 10:00 PM</li>
+                            <li>Sunday: 11:00 AM - 8:00 PM</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Contact Info</h5>
+                        <ul class="footer-contact">
+                            <li>
+                                <i class="fab fa-whatsapp"></i>
+                                <a href="https://wa.me/2347026325803">+2347026325803</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:adetejucool@gmail.com">adetejucool@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                Oyo town, Nigeria
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p class="copyright">&copy; 2025 Motun's Kitchen. All rights reserved. Made with <i class="fas fa-heart text-danger"></i> in Nigeria</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>

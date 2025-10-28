@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Motun's Kitchen</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="/asset/logo.png" alt="Motun's Kitchen" class="logo-img">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reviews.html">REVIEWS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active cart-link" href="cart.html">
+                            <i class="fas fa-shopping-cart"></i> CART
+                            <span class="cart-badge" id="cart-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Hero Section -->
+    <section class="page-hero cart-hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <div class="hero-text-wrapper">
+                <div class="hero-badge" data-aos="fade-down">
+                    <i class="fas fa-shopping-bag"></i> Shopping Cart
+                </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="200">
+                    Your <span class="highlight">Cart</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="400">
+                    Review your delicious selections
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="py-5 cart-section">
+        <div class="container">
+            <div class="row">
+                <!-- Cart Items -->
+                <div class="col-lg-8 mb-4">
+                    <!-- Cart Header -->
+                    <div class="cart-header" data-aos="fade-up">
+                        <h4 class="mb-0"><i class="fas fa-shopping-basket"></i> Cart Items</h4>
+                        <button class="btn btn-sm btn-outline-danger" id="clear-cart-btn" onclick="clearAllCart()">
+                            <i class="fas fa-trash-alt"></i> Clear All
+                        </button>
+                    </div>
+
+                    <div id="cart-items-container">
+                        <!-- Cart items will be dynamically loaded here -->
+                    </div>
+                    
+                    <!-- Empty Cart Message -->
+                    <div id="empty-cart" class="empty-cart-wrapper d-none">
+                        <div class="empty-cart-content">
+                            <div class="empty-cart-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h4>Your cart is empty</h4>
+                            <p>Add some delicious Nigerian dishes to get started!</p>
+                            <a href="index.html#menu" class="btn btn-primary-custom btn-lg">
+                                <i class="fas fa-utensils"></i> Browse Menu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-4">
+                    <div class="order-summary-card" id="order-summary" data-aos="fade-up">
+                        <h4 class="summary-title">
+                            <i class="fas fa-receipt"></i> Order Summary
+                        </h4>
+                        
+                        <div class="summary-item">
+                            <span>Subtotal:</span>
+                            <span class="summary-value">₦<span id="subtotal">0</span></span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Delivery Fee:</span>
+                            <span class="summary-value">₦<span id="delivery-fee">300</span></span>
+                        </div>
+                        
+                        <div class="summary-item discount-item">
+                            <span><i class="fas fa-tag"></i> Discount:</span>
+                            <span class="summary-value text-success">-₦<span id="discount">0</span></span>
+                        </div>
+                        
+                        <hr class="summary-divider">
+                        
+                        <div class="summary-total">
+                            <span>Total:</span>
+                            <span class="total-value">₦<span id="total">0</span></span>
+                        </div>
+                        
+                        <button id="checkout-btn" class="btn btn-primary-custom btn-lg w-100 mb-3">
+                            <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
+                        </button>
+                        
+                        <a href="index.html#menu" class="btn btn-outline-secondary w-100 mb-3">
+                            <i class="fas fa-arrow-left"></i> Continue Shopping
+                        </a>
+                        
+                        <div class="delivery-info">
+                            <h6><i class="fas fa-truck"></i> Delivery Information</h6>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Delivery within 45-60 minutes</li>
+                                <li><i class="fas fa-check"></i> Free delivery on orders above ₦5,000</li>
+                                <li><i class="fas fa-check"></i> Payment on delivery available</li>
+                            </ul>
+                        </div>
+
+                        <div class="promo-code-section">
+                            <h6><i class="fas fa-gift"></i> Have a promo code?</h6>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="promo-code-input" placeholder="Enter code">
+                                <button class="btn btn-outline-success" type="button" id="apply-promo-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Trust Badges -->
+                        <div class="trust-badges">
+                            <div class="trust-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Secure Checkout</span>
+                            </div>
+                            <div class="trust-badge">
+                                <i class="fas fa-lock"></i>
+                                <span>Safe Payment</span>
+                            </div>
+                            <div class="trust-badge">
+                                <i class="fas fa-headset"></i>
+                                <span>24/7 Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommended Items Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-badge">You Might Also Like</span>
+                <h2 class="section-title">Popular <span class="highlight">Additions</span></h2>
+            </div>
+
+            <div class="row g-4">
+                <!-- Recommended Item 1 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="recommended-card">
+                        <img src="https://kikifoodies.com/wp-content/uploads/2025/06/photo-output.jpeg" alt="Sharwama" class="recommended-img">
+                        <div class="recommended-content">
+                            <h5>Sharwama</h5>
+                            <p class="text-muted small">Tasty Sharwama</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="recommended-price">₦3000</span>
+                                <button class="btn btn-sm btn-primary-custom" onclick="addToCart(14)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Item 2 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="recommended-card">
+                        <img src="https://i.ytimg.com/vi/gvxK4-mEjTM/maxresdefault.jpg" alt="Chicken Pie" class="recommended-img">
+                        <div class="recommended-content">
+                            <h5>Chicken Pie</h5>
+                            <p class="text-muted small">Tasty Chicken Pie</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="recommended-price">₦800</span>
+                                <button class="btn btn-sm btn-primary-custom" onclick="addToCart(11)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Item 3 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="recommended-card">
+                        <img src="https://agronigeria.ng/wp-content/uploads/2025/07/Parfait-585x390.jpg" alt="Parfait" class="recommended-img">
+                        <div class="recommended-content">
+                            <h5>Parfait</h5>
+                            <p class="text-muted small">Creamy Parfait</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="recommended-price">₦3000</span>
+                                <button class="btn btn-sm btn-primary-custom" onclick="addToCart(12)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Item 4 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="recommended-card">
+                        <img src="https://snacknbite.com/wp-content/uploads/2024/11/IMG-20241022-WA0050.jpg" alt="Chin Chin" class="recommended-img">
+                        <div class="recommended-content">
+                            <h5>Chin Chin</h5>
+                            <p class="text-muted small">Crunchy snack</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="recommended-price">₦600</span>
+                                <button class="btn btn-sm btn-primary-custom" onclick="addToCart(15)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <h4 class="footer-title">MOTUN'S KITCHEN</h4>
+                        <p class="footer-text">Bringing the authentic taste of Nigerian cuisine to your table with love and tradition.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="https://wa.me/2347026325803" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Quick Links</h5>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="reviews.html">Reviews</a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Opening Hours</h5>
+                        <ul class="footer-hours">
+                            <li>Mon - Fri: 10:00 AM - 9:00 PM</li>
+                            <li>Saturday: 10:00 AM - 10:00 PM</li>
+                            <li>Sunday: 11:00 AM - 8:00 PM</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Contact Info</h5>
+                        <ul class="footer-contact">
+                            <li>
+                                <i class="fab fa-whatsapp"></i>
+                                <a href="https://wa.me/2347026325803">+2347026325803</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:adetejucool@gmail.com">adetejucool@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                Oyo town, Nigeria
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p class="copyright">&copy; 2025 Motun's Kitchen. All rights reserved. Made with <i class="fas fa-heart text-danger"></i> in Nigeria</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
