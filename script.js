@@ -126,7 +126,7 @@ const menuItems = [
         name: "Parfait",
         category: "drinks",
         price: 3000,
-        description: "Yummy Parfait made with love",
+        description: "Yummy Parfait dessert made with love",
         image: "https://agronigeria.ng/wp-content/uploads/2025/07/Parfait-585x390.jpg"
     },
     {
@@ -164,7 +164,7 @@ const menuItems = [
     {
         id: 20,
         name: "Fried Plantain",
-        category: "mains",
+        category: "sides",
         price: 50,
         description: "Tasty Fried Plantain - per pieces",
         image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg"
@@ -197,7 +197,7 @@ const menuItems = [
     {
         id: 24,
         name: "Catfish Pepper Soup",
-        category: "sides",
+        category: "mains",
         price: 5000,
         description: "Tasty Pepper Soup - per plate",
         image: "https://dooneyskitchen.com/wp-content/uploads/2021/05/fresh-fish-peppersoup.jpg"
@@ -205,7 +205,7 @@ const menuItems = [
     {
         id: 25,
         name: "Coleslaw",
-        category: "mains",
+        category: "sides",
         price: 500,
         description: "Tasty coleslaw",
         image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238"
@@ -503,7 +503,7 @@ function displayCartItems() {
 
 function updateOrderSummary() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const deliveryFee = cart.length > 0 ? 300 : 0;
+    const deliveryFee = cart.length > 0 ? 400 : 0;
     const total = subtotal + deliveryFee;
 
     const subtotalElement = document.getElementById('subtotal');
@@ -532,7 +532,7 @@ function setupCheckout() {
         });
 
         const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const deliveryFee = 300;
+        const deliveryFee = 400;
         const total = subtotal + deliveryFee;
 
         message += `\nSubtotal: ₦${subtotal.toLocaleString()}`;
@@ -1020,4 +1020,5 @@ if (typeof module !== 'undefined' && module.exports) {
         formatCurrency,
         menuItems
     };
+
 }
