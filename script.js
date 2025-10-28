@@ -146,7 +146,7 @@ const menuItems = [
         name: "Parfait",
         category: "drinks",
         price: 3000,
-        description: "Yummy Parfait made with love",
+        description: "Yummy Parfait dessert made with love",
         image: "https://agronigeria.ng/wp-content/uploads/2025/07/Parfait-585x390.jpg"
     },
     {
@@ -225,7 +225,7 @@ const menuItems = [
     {
         id: 25,
         name: "Coleslaw",
-        category: "mains",
+        category: "sides",
         price: 500,
         description: "Tasty coleslaw",
         image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238"
@@ -723,4 +723,5 @@ document.addEventListener('DOMContentLoaded', () => {
         initReviewsPage();
     }
 });
+
 
