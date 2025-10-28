@@ -466,7 +466,7 @@ function displayCartItems() {
 
 function updateOrderSummary() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const deliveryFee = cart.length > 0 ? 300 : 0;
+    const deliveryFee = cart.length > 0 ? 400 : 0;
     const total = subtotal + deliveryFee;
     const subtotalElement = document.getElementById('subtotal');
     const deliveryElement = document.getElementById('delivery-fee');
@@ -489,7 +489,7 @@ function setupCheckout() {
             message += `${item.quantity}x ${item.name} @ ₦${item.price.toLocaleString()} each = ₦${(item.price * item.quantity).toLocaleString()}\n`;
         });
         const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const deliveryFee = 300;
+        const deliveryFee = 400;
         const total = subtotal + deliveryFee;
         message += `\nSubtotal: ₦${subtotal.toLocaleString()}`;
         message += `\nDelivery Fee: ₦${deliveryFee.toLocaleString()}`;
@@ -723,3 +723,4 @@ document.addEventListener('DOMContentLoaded', () => {
         initReviewsPage();
     }
 });
+
