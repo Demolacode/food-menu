@@ -2404,7 +2404,7 @@ body {
 }
 
 .item-meta {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
@@ -2508,6 +2508,7 @@ body {
     font-size: 0.85rem;
     font-weight: 700;
     box-shadow: 0 4px 10px rgba(200, 16, 46, 0.3);
+    display:none;
 }
 
 .offer-content {
@@ -2680,5 +2681,6 @@ body {
         width: 100%;
     }
 }
+
 
 
