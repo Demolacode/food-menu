@@ -260,7 +260,8 @@ const availableToday = [
     { id: 14, stock: 'in-stock', quantity: 20 },
     { id: 15, stock: 'in-stock', quantity: 12 },
     { id: 20, stock: 'in-stock', quantity: 30 },
-    
+    { id: 25, stock: 'in-stock', quantity: 30 },
+    { id: 26, stock: 'in-stock', quantity: 8 },
 ];
 
 // Get available items with stock info
@@ -951,6 +952,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initAvailableTodayPage(); 
     }
 });
+
 
 
 
