@@ -583,7 +583,7 @@ img {
    CTA SECTION
    =================================== */
 .cta-section {
-    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80');
+    background-image: url('https://images.unsplash.com/photo-1665332195309-9d75071138f0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -2055,7 +2055,7 @@ body {
 
 /* Available Today Hero */
 .available-today-hero {
-    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80');
+    background-image: url(https://images.unsplash.com/photo-1665332195309-9d75071138f0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bmlnZXJpYSUyMGZvb2R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=600);
     background-size: cover;
     background-position: center;
     padding-bottom: 0;
@@ -2722,4 +2722,5 @@ body {
         width: 100%;
     }
 }
+
 
