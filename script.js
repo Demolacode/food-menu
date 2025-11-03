@@ -955,8 +955,11 @@ document.addEventListener('DOMContentLoaded', () => {
         initCartPage();
     } else if (currentPage.includes('reviews.html')) {
         initReviewsPage();
+    } else if (currentPage.includes('available-today.html')) {
+        initAvailableTodayPage(); 
     }
 });
+
 
 
 
