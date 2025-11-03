@@ -247,7 +247,7 @@ const menuItems = [
 
 // Available Today Data (simulates stock levels)
 const availableToday = [
-    { id: 4, stock: 'in-stock', quantity: },
+    { id: 4, stock: 'in-stock', quantity: 20 },
     { id: 5, stock: 'in-stock', quantity: 15 },
     { id: 6, stock: 'low-stock', quantity: 5 },
     { id: 7, stock: 'in-stock', quantity: 12 },
@@ -959,6 +959,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initAvailableTodayPage(); 
     }
 });
+
 
 
 
