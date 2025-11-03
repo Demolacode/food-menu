@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Today - Motun's Kitchen</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="/asset/logo.png" alt="Motun's Kitchen" class="logo-img">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="available-today.html">AVAILABLE TODAY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reviews.html">REVIEWS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cart-link" href="cart.html">
+                            <i class="fas fa-shopping-cart"></i> CART
+                            <span class="cart-badge" id="cart-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Available Today Hero Section -->
+    <section class="page-hero available-today-hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <div class="hero-text-wrapper">
+                <div class="hero-badge" data-aos="fade-down">
+                    <i class="fas fa-calendar-day"></i> Today's Menu
+                </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="200">
+                    Food <span class="highlight">Available Today</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="400">
+                    Fresh dishes prepared daily just for you
+                </p>
+                <div class="hero-date-badge" data-aos="fade-up" data-aos-delay="600">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats Section -->
+    <section class="py-4 quick-stats-section">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="quick-stat-card">
+                        <div class="stat-icon-small">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="available-count">0</h4>
+                            <p>Dishes Available</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="quick-stat-card">
+                        <div class="stat-icon-small">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>30-45</h4>
+                            <p>Minutes Delivery</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="quick-stat-card">
+                        <div class="stat-icon-small">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>Fresh</h4>
+                            <p>Hot & Ready</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="quick-stat-card">
+                        <div class="stat-icon-small">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>5.0</h4>
+                            <p>Rating</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-4 filter-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="availability-status" data-aos="fade-right">
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Kitchen Open - Ready to Serve</span>
+                        </div>
+                        <small class="text-muted d-block mt-1">Last updated: <span id="last-updated"></span></small>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="filter-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="search-input" placeholder="Search for dishes...">
+                        </div>
+                        <div class="stock-filter">
+                            <button class="stock-filter-btn active" data-filter="all">
+                                All Items
+                            </button>
+                            <button class="stock-filter-btn" data-filter="in-stock">
+                                <i class="fas fa-check-circle"></i> In Stock
+                            </button>
+                            <button class="stock-filter-btn" data-filter="low-stock">
+                                <i class="fas fa-exclamation-circle"></i> Limited
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Items Grid -->
+    <section class="py-5 available-items-section">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-badge">Today's Fresh Menu</span>
+                <h2 class="section-title">What's <span class="highlight">Cooking</span></h2>
+                <p class="section-subtitle">All dishes are prepared fresh today and ready for delivery</p>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs-wrapper" data-aos="fade-up" data-aos-delay="200">
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">
+                        <i class="fas fa-th"></i> All
+                    </button>
+                    <button class="category-tab" data-category="mains">
+                        <i class="fas fa-drumstick-bite"></i> Mains
+                    </button>
+                    <button class="category-tab" data-category="sides">
+                        <i class="fas fa-bread-slice"></i> Sides
+                    </button>
+                    <button class="category-tab" data-category="drinks">
+                        <i class="fas fa-glass-whiskey"></i> Drinks
+                    </button>
+                </div>
+            </div>
+
+            <!-- Items Grid -->
+            <div class="row g-4 mt-4" id="available-items-grid">
+                <!-- Items will be dynamically loaded here -->
+            </div>
+
+            <!-- No Results Message -->
+            <div id="no-results" class="text-center py-5 d-none">
+                <div class="empty-state">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4>No dishes found</h4>
+                    <p class="text-muted">Try adjusting your search or filters</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-badge">Limited Time</span>
+                <h2 class="section-title">Today's <span class="highlight">Special Offers</span></h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="offer-card">
+                        <div class="offer-badge">
+                            <i class="fas fa-percentage"></i> 10% OFF
+                        </div>
+                        <div class="offer-content">
+                            <h4>Combo Deal</h4>
+                            <p>Order any main dish with a drink and get 10% off</p>
+                            <a href="#available-items-grid" class="btn btn-primary-custom btn-sm">
+                                <i class="fas fa-utensils"></i> Order Now
+                            </a>
+                        </div>
+                        <div class="offer-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="offer-card">
+                        <div class="offer-badge">
+                            <i class="fas fa-gift"></i> FREE
+                        </div>
+                        <div class="offer-content">
+                            <h4>Free Delivery</h4>
+                            <p>Orders above ₦5,000 get free delivery today</p>
+                            <a href="#available-items-grid" class="btn btn-primary-custom btn-sm">
+                                <i class="fas fa-shopping-cart"></i> Shop Now
+                            </a>
+                        </div>
+                        <div class="offer-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Now CTA -->
+    <section class="py-5 order-cta-section">
+        <div class="container text-center">
+            <div data-aos="fade-up">
+                <h3 class="mb-3">Ready to place your order?</h3>
+                <p class="text-muted mb-4">Fresh food delivered to your doorstep in 30-45 minutes</p>
+                <div class="cta-buttons">
+                    <a href="cart.html" class="btn btn-primary-custom btn-lg">
+                        <i class="fas fa-shopping-cart"></i> View Cart
+                    </a>
+                    <a href="https://wa.me/2347026325803" class="btn btn-whatsapp btn-lg" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <h4 class="footer-title">MOTUN'S KITCHEN</h4>
+                        <p class="footer-text">Bringing the authentic taste of Nigerian cuisine to your table with love and tradition.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="https://wa.me/2347026325803" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Quick Links</h5>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="available-today.html">Available Today</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="reviews.html">Reviews</a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Opening Hours</h5>
+                        <ul class="footer-hours">
+                            <li>Mon - Fri: 9:00 AM - 8:00 PM</li>
+                            <li>Saturday: 9:00 AM - 8:00 PM</li>
+                            <li>Sunday: 11:00 AM - 8:00 PM</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-title">Contact Info</h5>
+                        <ul class="footer-contact">
+                            <li>
+                                <i class="fab fa-whatsapp"></i>
+                                <a href="https://wa.me/2347026325803">+2347026325803</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:adetejucool@gmail.com">adetejucool@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                Oyo town, Nigeria
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p class="copyright">&copy; 2025 Motun's Kitchen. All rights reserved. Made with <i class="fas fa-heart text-danger"></i> in Nigeria</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
