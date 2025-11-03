@@ -259,16 +259,8 @@ const availableToday = [
     { id: 13, stock: 'low-stock', quantity: 4 },
     { id: 14, stock: 'in-stock', quantity: 20 },
     { id: 15, stock: 'in-stock', quantity: 12 },
-    { id: 16, stock: 'in-stock', quantity: 9 },
-    { id: 17, stock: 'in-stock', quantity: 15 },
-    { id: 18, stock: 'low-stock', quantity: 6 },
-    { id: 19, stock: 'in-stock', quantity: 14 },
     { id: 20, stock: 'in-stock', quantity: 30 },
-    { id: 22, stock: 'in-stock', quantity: 11 },
-    { id: 23, stock: 'low-stock', quantity: 5 },
-    { id: 24, stock: 'in-stock', quantity: 7 },
-    { id: 25, stock: 'in-stock', quantity: 16 },
-    { id: 26, stock: 'in-stock', quantity: 20 }
+    
 ];
 
 // Get available items with stock info
@@ -959,6 +951,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initAvailableTodayPage(); 
     }
 });
+
 
 
 
