@@ -2109,7 +2109,7 @@ body {
     height: 50px;
     background: linear-gradient(135deg, var(--primary-green), var(--accent-gold));
     border-radius: 12px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
@@ -2680,4 +2680,5 @@ body {
         width: 100%;
     }
 }
+
 
