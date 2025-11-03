@@ -240,6 +240,240 @@ const menuItems = [
     } 
 ];
 
+/* ===================================
+   AVAILABLE TODAY PAGE FUNCTIONS
+   Add these to your script.js file
+   =================================== */
+
+// Available Today Data (simulates stock levels)
+const availableToday = [
+    { id: 4, stock: 'in-stock', quantity: 20 },
+    { id: 5, stock: 'in-stock', quantity: 15 },
+    { id: 6, stock: 'low-stock', quantity: 5 },
+    { id: 7, stock: 'in-stock', quantity: 12 },
+    { id: 8, stock: 'in-stock', quantity: 18 },
+    { id: 9, stock: 'low-stock', quantity: 3 },
+    { id: 10, stock: 'in-stock', quantity: 8 },
+    { id: 11, stock: 'in-stock', quantity: 25 },
+    { id: 12, stock: 'in-stock', quantity: 10 },
+    { id: 13, stock: 'low-stock', quantity: 4 },
+    { id: 14, stock: 'in-stock', quantity: 20 },
+    { id: 15, stock: 'in-stock', quantity: 12 },
+    { id: 16, stock: 'in-stock', quantity: 9 },
+    { id: 17, stock: 'in-stock', quantity: 15 },
+    { id: 18, stock: 'low-stock', quantity: 6 },
+    { id: 19, stock: 'in-stock', quantity: 14 },
+    { id: 20, stock: 'in-stock', quantity: 30 },
+    { id: 22, stock: 'in-stock', quantity: 11 },
+    { id: 23, stock: 'low-stock', quantity: 5 },
+    { id: 24, stock: 'in-stock', quantity: 7 },
+    { id: 25, stock: 'in-stock', quantity: 16 },
+    { id: 26, stock: 'in-stock', quantity: 20 }
+];
+
+// Get available items with stock info
+function getAvailableItems() {
+    return menuItems
+        .filter(item => {
+            const stockInfo = availableToday.find(a => a.id === item.id);
+            return stockInfo && stockInfo.stock !== 'out-of-stock';
+        })
+        .map(item => {
+            const stockInfo = availableToday.find(a => a.id === item.id);
+            return { ...item, ...stockInfo };
+        });
+}
+
+// Display available items
+function displayAvailableItems(filter = 'all', category = 'all', searchQuery = '') {
+    const itemsGrid = document.getElementById('available-items-grid');
+    const noResults = document.getElementById('no-results');
+    const availableCount = document.getElementById('available-count');
+    
+    if (!itemsGrid) return;
+    
+    let items = getAvailableItems();
+    
+    // Filter by stock status
+    if (filter !== 'all') {
+        items = items.filter(item => item.stock === filter);
+    }
+    
+    // Filter by category
+    if (category !== 'all') {
+        items = items.filter(item => item.category === category);
+    }
+    
+    // Filter by search query
+    if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        items = items.filter(item => 
+            item.name.toLowerCase().includes(query) ||
+            item.description.toLowerCase().includes(query)
+        );
+    }
+    
+    // Update available count
+    if (availableCount) {
+        availableCount.textContent = items.length;
+    }
+    
+    // Display items or no results
+    if (items.length === 0) {
+        itemsGrid.innerHTML = '';
+        noResults.classList.remove('d-none');
+        return;
+    }
+    
+    noResults.classList.add('d-none');
+    itemsGrid.innerHTML = '';
+    
+    items.forEach((item, index) => {
+        const delay = (index % 8) * 100;
+        const stockBadgeClass = item.stock === 'in-stock' ? 'in-stock' : 'low-stock';
+        const stockText = item.stock === 'in-stock' ? 'In Stock' : 'Limited Stock';
+        const isDisabled = item.stock === 'out-of-stock';
+        
+        const itemCard = `
+            <div class="col-md-6 col-lg-4 col-xl-3" data-aos="fade-up" data-aos-delay="${delay}">
+                <div class="available-item-card">
+                    <div class="item-img-wrapper">
+                        <img src="${item.image}" alt="${item.name}" class="item-img">
+                        <span class="stock-badge ${stockBadgeClass}">
+                            <i class="fas ${item.stock === 'in-stock' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                            ${stockText}
+                        </span>
+                        <span class="fresh-badge">
+                            <i class="fas fa-fire"></i> Fresh Today
+                        </span>
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">${item.name}</h3>
+                        <p class="item-description">${item.description}</p>
+                        <div class="item-meta">
+                            <span class="item-meta-item">
+                                <i class="fas fa-boxes"></i>
+                                ${item.quantity} available
+                            </span>
+                            <span class="item-meta-item">
+                                <i class="fas fa-clock"></i>
+                                Ready now
+                            </span>
+                        </div>
+                        <div class="item-footer">
+                            <div class="item-price">₦${item.price.toLocaleString()}</div>
+                            <button class="add-to-cart-btn-available" 
+                                    onclick="addToCart(${item.id})" 
+                                    ${isDisabled ? 'disabled' : ''}>
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        itemsGrid.innerHTML += itemCard;
+    });
+    
+    // Re-initialize AOS
+    if (typeof AOS !== 'undefined') {
+        AOS.refresh();
+    }
+}
+
+// Setup filters for available today page
+function setupAvailableTodayFilters() {
+    let currentStockFilter = 'all';
+    let currentCategory = 'all';
+    let currentSearch = '';
+    
+    // Stock filter buttons
+    const stockFilterBtns = document.querySelectorAll('.stock-filter-btn');
+    stockFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            stockFilterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentStockFilter = btn.getAttribute('data-filter');
+            displayAvailableItems(currentStockFilter, currentCategory, currentSearch);
+        });
+    });
+    
+    // Category tabs
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            categoryTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentCategory = tab.getAttribute('data-category');
+            displayAvailableItems(currentStockFilter, currentCategory, currentSearch);
+        });
+    });
+    
+    // Search input
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            displayAvailableItems(currentStockFilter, currentCategory, currentSearch);
+        });
+    }
+}
+
+// Update current date and time
+function updateDateTime() {
+    const currentDateElement = document.getElementById('current-date');
+    const lastUpdatedElement = document.getElementById('last-updated');
+    
+    if (currentDateElement) {
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        };
+        currentDateElement.textContent = new Date().toLocaleDateString('en-US', options);
+    }
+    
+    if (lastUpdatedElement) {
+        const timeOptions = { 
+            hour: '2-digit', 
+            minute: '2-digit'
+        };
+        lastUpdatedElement.textContent = new Date().toLocaleTimeString('en-US', timeOptions);
+    }
+}
+
+// Initialize Available Today page
+function initAvailableTodayPage() {
+    updateDateTime();
+    displayAvailableItems();
+    setupAvailableTodayFilters();
+    
+    // Update time every minute
+    setInterval(() => {
+        const lastUpdatedElement = document.getElementById('last-updated');
+        if (lastUpdatedElement) {
+            const timeOptions = { 
+                hour: '2-digit', 
+                minute: '2-digit'
+            };
+            lastUpdatedElement.textContent = new Date().toLocaleTimeString('en-US', timeOptions);
+        }
+    }, 60000);
+}
+
+// Update the main initialization to include Available Today page
+// Add this to the DOMContentLoaded event listener in your existing script.js
+// Inside: document.addEventListener('DOMContentLoaded', () => { ... });
+
+/* Add this condition to your existing page detection:
+ 
+if (currentPage.includes('available-today.html')) {
+    initAvailableTodayPage();
+}
+
+*/
+
 // ===================================
 // CART MANAGEMENT
 // ===================================
@@ -723,5 +957,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initReviewsPage();
     }
 });
+
 
 
