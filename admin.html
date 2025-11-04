@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Motun's Kitchen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #6C757D;
+        }
+        
+        .loading {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .loading i {
+            font-size: 3rem;
+            color: #667eea;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .controls {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .controls-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6C757D;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-add {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            background: #008751;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-add:hover {
+            background: #006d41;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6C757D;
+            font-size: 0.9rem;
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .item-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .item-image {
+            position: relative;
+            height: 200px;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .stock-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .stock-badge.in-stock {
+            background: rgba(34, 197, 94, 0.95);
+            color: white;
+        }
+        
+        .stock-badge.low-stock {
+            background: rgba(255, 193, 7, 0.95);
+            color: #1a1a1a;
+        }
+        
+        .item-body {
+            padding: 1.5rem;
+        }
+        
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        
+        .item-desc {
+            color: #6C757D;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .item-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .item-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #C8102E;
+        }
+        
+        .qty-badge {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #6C757D;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .item-actions input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        
+        .btn-update {
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            border: none;
+            background: #008751;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .btn-update:hover {
+            background: #006d41;
+        }
+        
+        .btn-remove {
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: none;
+            background: #fee;
+            color: #C8102E;
+            cursor: pointer;
+        }
+        
+        .btn-remove:hover {
+            background: #fdd;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .btn-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .add-item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .add-item-row {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            align-items: center;
+        }
+        
+        .add-item-row img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .add-item-info {
+            flex: 1;
+        }
+        
+        .add-item-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .add-item-info p {
+            color: #6C757D;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        
+        .add-item-row input {
+            width: 80px;
+            padding: 0.5rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .btn-add-item {
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            border: none;
+            background: #008751;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .btn-add-item:hover {
+            background: #006d41;
+        }
+        
+        .empty-state {
+            background: white;
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-success {
+            background: #22c55e;
+        }
+        
+        .alert-error {
+            background: #ef4444;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .controls-grid {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Loading State -->
+        <div class="loading" id="loading-state">
+            <i class="fas fa-spinner"></i>
+            <p style="margin-top: 1rem; color: #6C757D;">Loading admin panel...</p>
+        </div>
+
+        <!-- Main Content (hidden until loaded) -->
+        <div id="main-content" style="display: none;">
+            <!-- Header -->
+            <div class="header">
+                <h1>🍽️ Available Food Manager</h1>
+                <p>Manage your daily available items and stock levels - Updates in real-time!</p>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="controls-grid">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Search items...">
+                    </div>
+
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All Items</button>
+                        <button class="filter-btn" data-filter="in-stock">In Stock</button>
+                        <button class="filter-btn" data-filter="low-stock">Low Stock</button>
+                    </div>
+
+                    <button class="btn-add" onclick="openAddModal()">
+                        <i class="fas fa-plus"></i>
+                        Add Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #667eea;" id="total-count">0</div>
+                    <div class="stat-label">Total Items</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #22c55e;" id="instock-count">0</div>
+                    <div class="stat-label">In Stock</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #ffc107;" id="lowstock-count">0</div>
+                    <div class="stat-label">Low Stock</div>
+                </div>
+            </div>
+
+            <!-- Items Grid -->
+            <div class="items-grid" id="items-grid"></div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No items found</h3>
+                <p>Try adjusting your search or filters</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal" id="add-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Item to Available List</h2>
+                <button class="btn-close" onclick="closeAddModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="add-item-list" id="add-item-list"></div>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase Configuration (same as your script.js)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAp664yZBCUoLqtFA90v6cNw9KoFW6Y5sE",
+            authDomain: "motun-s-kitchen--review.firebaseapp.com",
+            projectId: "motun-s-kitchen--review",
+            storageBucket: "motun-s-kitchen--review.firebasestorage.app",
+            messagingSenderId: "441300806713",
+            appId: "1:441300806713:web:d58dc47d533445645271e8",
+            measurementId: "G-YFMNRX6N58"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const availableItemsCollection = db.collection('availableItems');
+
+        // Menu Items (same as your script.js)
+        const menuItems = [
+    { id: 1, name: "Medium size take-away", category: "mains", price: 200, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQcb9WEs85cDkotFpeqh3jRC4v-mWcTu_KPg&s" },
+    { id: 2, name: "Big size take-away", category: "mains", price: 300, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DcK6qptngg3B-wjafNme4DWWa_CPhwkAFw&s" },
+    { id: 3, name: "Disposable take-away", category: "mains", price: 100, description: "To package anything you order", image: "https://cartnear.s3.us-east-2.amazonaws.com/ng/4d4c242892bc9bf5c3f2490c6352950b.jpg" },
+    { id: 4, name: "Jollof Rice", category: "mains", price: 300, description: "Nigerian Party jollof rice with rich taste - per spoon", image: "https://i.pinimg.com/originals/f9/6b/f9/f96bf993bc16fe5acf32df2bcb4ba443.jpg" },
+    { id: 5, name: "Fried Rice", category: "mains", price: 300, description: "Nigerian fried rice with rich taste - per spoon", image: "https://sisijemimah.com/wp-content/uploads/2015/07/IMG_0011_20200824075644597-1024x649.jpg" },
+    { id: 6, name: "Ewa Agoyin", category: "mains", price: 300, description: "Nigeria Delicious Ewa agoyin - per spoon", image: "https://i.pinimg.com/originals/16/72/4f/16724f8eb561af1fda6f606a9c5431c6.jpg" },
+    { id: 7, name: "Yummy Beef", category: "mains", price: 300, description: "Yummy fried and peppered beef", image: "https://www.preciouscore.com/wp-content/uploads/2023/01/Nigerian-Beef-Stew-fried-beef-720x1080.jpg" },
+    { id: 8, name: "Soft Bread", category: "mains", price: 400, description: "Nigerian soft and succulent bread - per piece", image: "https://static.wixstatic.com/media/3380d8_dcb9e7eda6cd4496b0a40d4805c50c91~mv2.jpg/v1/fit/w_800%2Ch_532%2Cal_c%2Cq_80/file.jpg" },
+    { id: 9, name: "Fried Fish", category: "mains", price: 500, description: "Yummy Fried fish - per pieces", image: "https://th.bing.com/th/id/R.49b7e8e906a3dc367283f8a0f396e767?rik=p%2fBTzCSMDe9wig&pid=ImgRaw&r=0" },
+    { id: 10, name: "Yummy Chicken", category: "mains", price: 2000, description: "Yummy Fried and Peppered Chicken", image: "https://thissillygirlskitchen.com/wp-content/uploads/2020/05/Southern-Fried-Chicken-20.jpg" },
+    { id: 11, name: "Boiled Egg", category: "mains", price: 300, description: "Yummy Boiled Tasty Egg - per pieces", image: "https://www.islandsmile.org/wp-content/uploads/2021/09/IMG_0810-2-495x640.jpg" },
+    { id: 12, name: "Stir Jollof Spaghetti with Beef", category: "mains", price: 2000, description: "Yummy Stir Jollof Spaghetti with beef", image: "https://1qfoodplatter.com/wp-content/uploads/2016/08/Jollof-Spaghetti-2-1140x760.jpg" },
+    { id: 13, name: "Stir Jollof Spaghetti with Chicken", category: "mains", price: 3000, description: "Yummy Stir jollof spaghetti with chicken", image: "https://i.pinimg.com/originals/76/9a/ea/769aeaa2f00eec91c31bd80fac154e80.jpg" },
+    { id: 14, name: "Chicken Pie", category: "sides", price: 800, description: "Yummy Chicken pie", image: "https://i.ytimg.com/vi/gvxK4-mEjTM/maxresdefault.jpg" },
+    // FIXED URL for Parfait
+    { id: 15, name: "Parfait", category: "drinks", price: 3000, description: "Yummy Parfait dessert made with love", image: "https://www.gfsstore.com/wp-content/uploads/2022/08/873082-PKG-6.jpg" },
+    { id: 16, name: "Chicken and Chips", category: "sides", price: 4000, description: "Yummy Chicken and chips made with love", image: "https://cdn.mos.cms.futurecdn.net/rJVxqTHxNZM2C4XYuTY5uA-1200-80.jpg" },
+    // FIXED URL for Zobo
+    { id: 17, name: "Zobo Drink", category: "drinks", price: 1000, description: "Freshly Made Hibiscus Drink", image: "https://www.ziingofood.com.ng/public/uploads/restaurant/items/item119152439.jpg" },
+    { id: 18, name: "Tigernut Drink", category: "drinks", price: 1500, description: "Freshly Made Tigernut Drink", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMmYKNiqR98cBRAu1QAD0GsQuP7PBRittjcA&s" },
+    // FIXED URL for Shawarma
+    { id: 19, name: "Shawarma", category: "sides", price: 3000, description: "Tasty Shawarma", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj24psxwdqELfKdMHjaqkmJiBldh0XpCF3_w&s" },
+    { id: 20, name: "Fried Plantain", category: "mains", price: 50, description: "Tasty Fried Plantain - per pieces", image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg" },
+    { id: 21, name: "Cow Skin", category: "mains", price: 200, description: "Peppered Cow skin(ponmo) - per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVRM6nO9ByOgmaSaNxSpljdlDl4lmrAr02YA&s" },
+    { id: 22, name: "Asun", category: "sides", price: 1000, description: "Peppered Goat Meat Asun - Per Plate", image: "https://img-global.cpcdn.com/recipes/341cce581709694f/600x852cq80/peppered-asun-goat-meat-recipe-main-photo.webp" },
+    { id: 23, name: "Barbecue Chicken", category: "sides", price: 2500, description: "Tasty barbecue Chicken- per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8EXnbwgBaNe2P7_0W1-NXmKn7ZrO8VMDRg&s" },
+    { id: 24, name: "Catfish Pepper Soup", category: "sides", price: 5000, description: "Tasty Pepper Soup - per plate", image: "https://dooneyskitchen.com/wp-content/uploads/2021/05/fresh-fish-peppersoup.jpg" },
+    { id: 25, name: "Coleslaw", category: "sides", price: 500, description: "Tasty coleslaw", image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238" },
+    { id: 26, name: "Soft Drinks", category: "drinks", price: 500, description: "Any soft drinks from 500 - 1500 naira", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjRs6M4e_gmalxMjHBy652BbMuiFZPyJBl_w&s" }
+];
+
+        let availableItems = [];
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Show alert notification
+        function showAlert(message, type = 'success') {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+            document.body.appendChild(alert);
+            setTimeout(() => alert.remove(), 3000);
+        }
+
+        // Load available items from Firebase
+        async function loadAvailableItems() {
+            try {
+                const snapshot = await availableItemsCollection.get();
+                availableItems = snapshot.docs.map(doc => ({
+                    docId: doc.id,
+                    ...doc.data()
+                }));
+                displayItems();
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            } catch (error) {
+                console.error('Error loading items:', error);
+                showAlert('Error loading items. Please refresh the page.', 'error');
+            }
+        }
+
+        // Get available items with details
+        function getAvailableWithDetails() {
+            return availableItems.map(avail => {
+                const item = menuItems.find(m => m.id === avail.id);
+                return item ? { ...item, ...avail } : null;
+            }).filter(item => item !== null);
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('total-count').textContent = availableItems.length;
+            document.getElementById('instock-count').textContent = availableItems.filter(i => i.stock === 'in-stock').length;
+            document.getElementById('lowstock-count').textContent = availableItems.filter(i => i.stock === 'low-stock').length;
+        }
+
+        // Display items
+        function displayItems() {
+            const grid = document.getElementById('items-grid');
+            const emptyState = document.getElementById('empty-state');
+            
+            let items = getAvailableWithDetails();
+            
+            // Apply filters
+            if (currentFilter !== 'all') {
+                items = items.filter(item => item.stock === currentFilter);
+            }
+            
+            if (currentSearch) {
+                items = items.filter(item => 
+                    item.name.toLowerCase().includes(currentSearch.toLowerCase())
+                );
+            }
+            
+            if (items.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            grid.innerHTML = items.map(item => `
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                        <span class="stock-badge ${item.stock}">
+                            ${item.stock === 'in-stock' ? '✓ In Stock' : '⚠ Low Stock'}
+                        </span>
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">${item.name}</h3>
+                        <p class="item-desc">${item.description}</p>
+                        <div class="item-footer">
+                            <div class="item-price">₦${item.price.toLocaleString()}</div>
+                            <div class="qty-badge">Qty: ${item.quantity}</div>
+                        </div>
+                        <div class="item-actions">
+                            <input 
+                                type="number" 
+                                value="${item.quantity}" 
+                                min="0"
+                                id="qty-${item.id}"
+                            >
+                            <button class="btn-update" onclick="updateQuantity('${item.docId}', ${item.id})">
+                                <i class="fas fa-save"></i>
+                            </button>
+                            <button class="btn-remove" onclick="removeItem('${item.docId}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            updateStats();
+        }
+
+        // Update quantity
+        async function updateQuantity(docId, itemId) {
+            const qtyInput = document.getElementById(`qty-${itemId}`);
+            const quantity = parseInt(qtyInput.value) || 0;
+            const stock = quantity > 10 ? 'in-stock' : quantity > 0 ? 'low-stock' : 'out-of-stock';
+            
+            try {
+                await availableItemsCollection.doc(docId).update({
+                    quantity: quantity,
+                    stock: stock
+                });
+                showAlert('Quantity updated successfully!');
+                await loadAvailableItems();
+            } catch (error) {
+                console.error('Error updating quantity:', error);
+                showAlert('Error updating quantity. Please try again.', 'error');
+            }
+        }
+
+        // Remove item
+        async function removeItem(docId) {
+            if (!confirm('Remove this item from available list?')) return;
+            
+            try {
+                await availableItemsCollection.doc(docId).delete();
+                showAlert('Item removed successfully!');
+                await loadAvailableItems();
+            } catch (error) {
+                console.error('Error removing item:', error);
+                showAlert('Error removing item. Please try again.', 'error');
+            }
+        }
+
+        // Open add modal
+        function openAddModal() {
+            const availableIds = availableItems.map(item => item.id);
+            const itemsToAdd = menuItems.filter(item => !availableIds.includes(item.id));
+            
+            const list = document.getElementById('add-item-list');
+            
+            if (itemsToAdd.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #6C757D; padding: 2rem;">All menu items are already in the available list!</p>';
+            } else {
+                list.innerHTML = itemsToAdd.map(item => `
+                    <div class="add-item-row">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="add-item-info">
+                            <h4>${item.name}</h4>
+                            <p>₦${item.price.toLocaleString()}</p>
+                        </div>
+                        <input type="number" value="15" min="1" id="add-qty-${item.id}">
+                        <button class="btn-add-item" onclick="addItem(${item.id})">Add</button>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('add-modal').classList.add('show');
+        }
+
+        // Close add modal
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.remove('show');
+        }
+
+        // Add item
+        async function addItem(itemId) {
+            const qtyInput = document.getElementById(`add-qty-${itemId}`);
+            const quantity = parseInt(qtyInput.value) || 15;
+            const stock = quantity > 10 ? 'in-stock' : 'low-stock';
+            
+            try {
+                await availableItemsCollection.add({
+                    id: itemId,
+                    stock: stock,
+                    quantity: quantity
+                });
+                showAlert('Item added successfully!');
+                await loadAvailableItems();
+                closeAddModal();
+            } catch (error) {
+                console.error('Error adding item:', error);
+                showAlert('Error adding item. Please try again.', 'error');
+            }
+        }
+
+        // Setup event listeners
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            displayItems();
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                displayItems();
+            });
+        });
+
+        // Close modal on outside click
+        document.getElementById('add-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'add-modal') {
+                closeAddModal();
+            }
+        });
+
+        // Initialize - Load items from Firebase
+        loadAvailableItems();
+    </script>
+</body>
+</html>
