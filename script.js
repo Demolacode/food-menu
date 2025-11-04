@@ -29,253 +29,84 @@ const reviewsCollection = db.collection('reviews');
 // MENU DATA
 // ===================================
 const menuItems = [
-    {
-        id: 1,
-        name: "Medium size take-away",
-        category: "mains",
-        price: 200,
-        description: "To package anything you order",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQcb9WEs85cDkotFpeqh3jRC4v-mWcTu_KPg&s"
-    },
-    {
-        id: 2,
-        name: "Big size take-away",
-        category: "mains",
-        price: 300,
-        description: "To package anything you order",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DcK6qptngg3B-wjafNme4DWWa_CPhwkAFw&s"
-    },
-    {
-        id: 3,
-        name: "Disposable take-away",
-        category: "mains",
-        price: 100,
-        description: "To package anything you order",
-        image: "https://cartnear.s3.us-east-2.amazonaws.com/ng/4d4c242892bc9bf5c3f2490c6352950b.jpg"
-    },
-    {
-        id: 4,
-        name: "Jollof Rice",
-        category: "mains",
-        price: 300,
-        description: "Nigerian Party jollof rice with rich taste - per spoon",
-        image: "https://i.pinimg.com/originals/f9/6b/f9/f96bf993bc16fe5acf32df2bcb4ba443.jpg"
-    },
-    {
-        id: 5,
-        name: "Fried Rice",
-        category: "mains",
-        price: 300,
-        description: "Nigerian fried rice with rich taste - per spoon",
-        image: "https://sisijemimah.com/wp-content/uploads/2015/07/IMG_0011_20200824075644597-1024x649.jpg"
-    },
-    {
-        id: 6,
-        name: "Ewa Agoyin",
-        category: "mains",
-        price: 300,
-        description: "Nigeria Delicious Ewa agoyin - per spoon",
-        image: "https://i.pinimg.com/originals/16/72/4f/16724f8eb561af1fda6f606a9c5431c6.jpg"
-    },
-    {
-        id: 7,
-        name: "Yummy Beef",
-        category: "mains",
-        price: 300,
-        description: "Yummy fried and peppered beef",
-        image: "https://www.preciouscore.com/wp-content/uploads/2023/01/Nigerian-Beef-Stew-fried-beef-720x1080.jpg"
-    },
-    {
-        id: 8,
-        name: "Soft Bread",
-        category: "mains",
-        price: 400,
-        description: "Nigerian soft and succulent bread - per piece",
-        image: "https://static.wixstatic.com/media/3380d8_dcb9e7eda6cd4496b0a40d4805c50c91~mv2.jpg/v1/fit/w_800%2Ch_532%2Cal_c%2Cq_80/file.jpg"
-    },
-    {
-        id: 9,
-        name: "Fried Fish",
-        category: "mains",
-        price: 500,
-        description: "Yummy Fried fish - per pieces",
-        image: "https://th.bing.com/th/id/R.49b7e8e906a3dc367283f8a0f396e767?rik=p%2fBTzCSMDe9wig&pid=ImgRaw&r=0"
-    },
-    {
-        id: 10,
-        name: "Yummy Chicken",
-        category: "mains",
-        price: 2000,
-        description: "Yummy Fried and Peppered Chicken",
-        image: "https://thissillygirlskitchen.com/wp-content/uploads/2020/05/Southern-Fried-Chicken-20.jpg"
-    },
-    {
-        id: 11,
-        name: "Boiled Egg",
-        category: "mains",
-        price: 300,
-        description: "Yummy Boiled Tasty Egg - per pieces",
-        image: "https://www.islandsmile.org/wp-content/uploads/2021/09/IMG_0810-2-495x640.jpg"
-    },
-    {
-        id: 12,
-        name: "Stir Jollof Spaghetti with Beef",
-        category: "mains",
-        price: 2000,
-        description: "Yummy Stir Jollof Spaghetti with beef",
-        image: "https://1qfoodplatter.com/wp-content/uploads/2016/08/Jollof-Spaghetti-2-1140x760.jpg"
-    },
-    {
-        id: 13,
-        name: "Stir Jollof Spaghetti with Chicken",
-        category: "mains",
-        price: 3000,
-        description: "Yummy Stir jollof spaghetti with chicken",
-        image: "https://i.pinimg.com/originals/76/9a/ea/769aeaa2f00eec91c31bd80fac154e80.jpg"
-    },
-    {
-        id: 14,
-        name: "Chicken Pie",
-        category: "sides",
-        price: 800,
-        description: "Yummy Chicken pie",
-        image: "https://i.ytimg.com/vi/gvxK4-mEjTM/maxresdefault.jpg"
-    },
-    {
-        id: 15,
-        name: "Parfait",
-        category: "drinks",
-        price: 3000,
-        description: "Yummy Parfait dessert made with love",
-        image: "https://agronigeria.ng/wp-content/uploads/2025/07/Parfait-585x390.jpg"
-    },
-    {
-        id: 16,
-        name: "Chicken and Chips",
-        category: "sides",
-        price: 4000,
-        description: "Yummy Chicken and chips made with love",
-        image: "https://cdn.mos.cms.futurecdn.net/rJVxqTHxNZM2C4XYuTY5uA-1200-80.jpg"
-    },
-    {
-        id: 17,
-        name: "Zobo Drink",
-        category: "drinks",
-        price: 1000,
-        description: " Freshly Made Hibiscus Drink",
-        image: "https://afrosuyapalace.com/wp-content/uploads/2024/11/Zobo.jpeg"
-    },
-    {
-        id: 18,
-        name: "Tigernut Drink",
-        category: "drinks",
-        price: 1500,
-        description: "Freshly Made Tigernut Drink",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMmYKNiqR98cBRAu1QAD0GsQuP7PBRittjcA&s"
-    },
-    {
-        id: 19,
-        name: "Sharwama",
-        category: "sides",
-        price: 3000,
-        description: "Tasty Sharwama",
-        image: "https://kikifoodies.com/wp-content/uploads/2025/06/photo-output.jpeg"
-    },
-    {
-        id: 20,
-        name: "Fried Plantain",
-        category: "mains",
-        price: 50,
-        description: "Tasty Fried Plantain - per pieces",
-        image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg"
-     },
-     {
-        id: 21,
-        name: "Cow Skin",
-        category: "mains",
-        price: 200,
-        description: "Peppered Cow skin(ponmo) - per pieces",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVRM6nO9ByOgmaSaNxSpljdlDl4lmrAr02YA&s"
-    },
-    {
-        id: 22,
-        name: "Asun",
-        category: "sides",
-        price: 1000,
-        description: "Peppered Goat Meat Asun - Per Plate",
-        image: "https://img-global.cpcdn.com/recipes/341cce581709694f/600x852cq80/peppered-asun-goat-meat-recipe-main-photo.webp"
-    },
-    {
-        id: 23,
-        name: "Barbecue Chicken",
-        category: "sides",
-        price: 2500,
-        description: "Tasty barbecue Chicken- per pieces",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8EXnbwgBaNe2P7_0W1-NXmKn7ZrO8VMDRg&s"
-
-    },
-    {
-        id: 24,
-        name: "Catfish Pepper Soup",
-        category: "sides",
-        price: 5000,
-        description: "Tasty Pepper Soup - per plate",
-        image: "https://dooneyskitchen.com/wp-content/uploads/2021/05/fresh-fish-peppersoup.jpg"
-    },
-    {
-        id: 25,
-        name: "Coleslaw",
-        category: "sides",
-        price: 500,
-        description: "Tasty coleslaw",
-        image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238"
-    },
-    {
-        id: 26,
-        name: "Soft Drinks",
-        category: "drinks",
-        price: 500,
-        description: "Any soft drinks from 500 - 1500 naira",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjRs6M4e_gmalxMjHBy652BbMuiFZPyJBl_w&s"
-    } 
+    { id: 1, name: "Medium size take-away", category: "mains", price: 200, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQcb9WEs85cDkotFpeqh3jRC4v-mWcTu_KPg&s" },
+    { id: 2, name: "Big size take-away", category: "mains", price: 300, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DcK6qptngg3B-wjafNme4DWWa_CPhwkAFw&s" },
+    { id: 3, name: "Disposable take-away", category: "mains", price: 100, description: "To package anything you order", image: "https://cartnear.s3.us-east-2.amazonaws.com/ng/4d4c242892bc9bf5c3f2490c6352950b.jpg" },
+    { id: 4, name: "Jollof Rice", category: "mains", price: 300, description: "Nigerian Party jollof rice with rich taste - per spoon", image: "https://i.pinimg.com/originals/f9/6b/f9/f96bf993bc16fe5acf32df2bcb4ba443.jpg" },
+    { id: 5, name: "Fried Rice", category: "mains", price: 300, description: "Nigerian fried rice with rich taste - per spoon", image: "https://sisijemimah.com/wp-content/uploads/2015/07/IMG_0011_20200824075644597-1024x649.jpg" },
+    { id: 6, name: "Ewa Agoyin", category: "mains", price: 300, description: "Nigeria Delicious Ewa agoyin - per spoon", image: "https://i.pinimg.com/originals/16/72/4f/16724f8eb561af1fda6f606a9c5431c6.jpg" },
+    { id: 7, name: "Yummy Beef", category: "mains", price: 300, description: "Yummy fried and peppered beef", image: "https://www.preciouscore.com/wp-content/uploads/2023/01/Nigerian-Beef-Stew-fried-beef-720x1080.jpg" },
+    { id: 8, name: "Soft Bread", category: "mains", price: 400, description: "Nigerian soft and succulent bread - per piece", image: "https://static.wixstatic.com/media/3380d8_dcb9e7eda6cd4496b0a40d4805c50c91~mv2.jpg/v1/fit/w_800%2Ch_532%2Cal_c%2Cq_80/file.jpg" },
+    { id: 9, name: "Fried Fish", category: "mains", price: 500, description: "Yummy Fried fish - per pieces", image: "https://th.bing.com/th/id/R.49b7e8e906a3dc367283f8a0f396e767?rik=p%2fBTzCSMDe9wig&pid=ImgRaw&r=0" },
+    { id: 10, name: "Yummy Chicken", category: "mains", price: 2000, description: "Yummy Fried and Peppered Chicken", image: "https://thissillygirlskitchen.com/wp-content/uploads/2020/05/Southern-Fried-Chicken-20.jpg" },
+    { id: 11, name: "Boiled Egg", category: "mains", price: 300, description: "Yummy Boiled Tasty Egg - per pieces", image: "https://www.islandsmile.org/wp-content/uploads/2021/09/IMG_0810-2-495x640.jpg" },
+    { id: 12, name: "Stir Jollof Spaghetti with Beef", category: "mains", price: 2000, description: "Yummy Stir Jollof Spaghetti with beef", image: "https://1qfoodplatter.com/wp-content/uploads/2016/08/Jollof-Spaghetti-2-1140x760.jpg" },
+    { id: 13, name: "Stir Jollof Spaghetti with Chicken", category: "mains", price: 3000, description: "Yummy Stir jollof spaghetti with chicken", image: "https://i.pinimg.com/originals/76/9a/ea/769aeaa2f00eec91c31bd80fac154e80.jpg" },
+    { id: 14, name: "Chicken Pie", category: "sides", price: 800, description: "Yummy Chicken pie", image: "https://i.ytimg.com/vi/gvxK4-mEjTM/maxresdefault.jpg" },
+    // FIXED URL for Parfait
+    { id: 15, name: "Parfait", category: "drinks", price: 3000, description: "Yummy Parfait dessert made with love", image: "https://www.gfsstore.com/wp-content/uploads/2022/08/873082-PKG-6.jpg" },
+    { id: 16, name: "Chicken and Chips", category: "sides", price: 4000, description: "Yummy Chicken and chips made with love", image: "https://cdn.mos.cms.futurecdn.net/rJVxqTHxNZM2C4XYuTY5uA-1200-80.jpg" },
+    // FIXED URL for Zobo
+    { id: 17, name: "Zobo Drink", category: "drinks", price: 1000, description: "Freshly Made Hibiscus Drink", image: "https://www.ziingofood.com.ng/public/uploads/restaurant/items/item119152439.jpg" },
+    { id: 18, name: "Tigernut Drink", category: "drinks", price: 1500, description: "Freshly Made Tigernut Drink", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMmYKNiqR98cBRAu1QAD0GsQuP7PBRittjcA&s" },
+    // FIXED URL for Shawarma
+    { id: 19, name: "Shawarma", category: "sides", price: 3000, description: "Tasty Shawarma", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj24psxwdqELfKdMHjaqkmJiBldh0XpCF3_w&s" },
+    { id: 20, name: "Fried Plantain", category: "mains", price: 50, description: "Tasty Fried Plantain - per pieces", image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg" },
+    { id: 21, name: "Cow Skin", category: "mains", price: 200, description: "Peppered Cow skin(ponmo) - per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVRM6nO9ByOgmaSaNxSpljdlDl4lmrAr02YA&s" },
+    { id: 22, name: "Asun", category: "sides", price: 1000, description: "Peppered Goat Meat Asun - Per Plate", image: "https://img-global.cpcdn.com/recipes/341cce581709694f/600x852cq80/peppered-asun-goat-meat-recipe-main-photo.webp" },
+    { id: 23, name: "Barbecue Chicken", category: "sides", price: 2500, description: "Tasty barbecue Chicken- per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8EXnbwgBaNe2P7_0W1-NXmKn7ZrO8VMDRg&s" },
+    { id: 24, name: "Catfish Pepper Soup", category: "sides", price: 5000, description: "Tasty Pepper Soup - per plate", image: "https://dooneyskitchen.com/wp-content/uploads/2021/05/fresh-fish-peppersoup.jpg" },
+    { id: 25, name: "Coleslaw", category: "sides", price: 500, description: "Tasty coleslaw", image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238" },
+    { id: 26, name: "Soft Drinks", category: "drinks", price: 500, description: "Any soft drinks from 500 - 1500 naira", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjRs6M4e_gmalxMjHBy652BbMuiFZPyJBl_w&s" }
 ];
 
 /* ===================================
-   AVAILABLE TODAY PAGE FUNCTIONS
-   Add these to your script.js file
+   AVAILABLE TODAY PAGE FUNCTIONS (FIREBASE VERSION)
    =================================== */
 
-// Available Today Data (simulates stock levels)
-// Load Available Today Data from localStorage (syncs with admin panel)
-function loadAvailableItemsFromStorage() {
-    const stored = localStorage.getItem('availableItems');
-    if (stored) {
-        return JSON.parse(stored);
+// Load Available Today Data from Firebase
+let availableToday = [];
+
+async function loadAvailableItemsFromFirebase() {
+    try {
+        const availableItemsCollection = db.collection('availableItems');
+        const snapshot = await availableItemsCollection.get();
+
+        availableToday = snapshot.docs.map(doc => ({
+            ...doc.data()
+        }));
+
+        // If page is available-today.html, display the items
+        if (window.location.pathname.includes('available-today.html')) {
+            displayAvailableItems();
+        }
+    } catch (error) {
+        console.error('Error loading available items from Firebase:', error);
+        // Fallback to default data if Firebase fails
+        availableToday = [
+            { id: 4, stock: 'in-stock', quantity: 20 },
+            { id: 5, stock: 'in-stock', quantity: 15 },
+            { id: 6, stock: 'low-stock', quantity: 5 },
+            { id: 7, stock: 'in-stock', quantity: 12 },
+            { id: 8, stock: 'in-stock', quantity: 18 },
+            { id: 9, stock: 'low-stock', quantity: 3 },
+            { id: 10, stock: 'in-stock', quantity: 8 },
+            { id: 11, stock: 'in-stock', quantity: 25 },
+            { id: 12, stock: 'in-stock', quantity: 10 },
+            { id: 13, stock: 'low-stock', quantity: 4 },
+            { id: 14, stock: 'in-stock', quantity: 20 },
+            { id: 15, stock: 'in-stock', quantity: 12 },
+            { id: 20, stock: 'in-stock', quantity: 30 },
+            { id: 25, stock: 'in-stock', quantity: 30 },
+            { id: 26, stock: 'in-stock', quantity: 8 },
+        ];
+
+        if (window.location.pathname.includes('available-today.html')) {
+            displayAvailableItems();
+        }
     }
-    // Default items if nothing in storage
-    return [
-        { id: 4, stock: 'in-stock', quantity: 20 },
-        { id: 5, stock: 'in-stock', quantity: 15 },
-        { id: 6, stock: 'low-stock', quantity: 5 },
-        { id: 7, stock: 'in-stock', quantity: 12 },
-        { id: 8, stock: 'in-stock', quantity: 18 },
-        { id: 9, stock: 'low-stock', quantity: 3 },
-        { id: 10, stock: 'in-stock', quantity: 8 },
-        { id: 11, stock: 'in-stock', quantity: 25 },
-        { id: 12, stock: 'in-stock', quantity: 10 },
-        { id: 13, stock: 'low-stock', quantity: 4 },
-        { id: 14, stock: 'in-stock', quantity: 20 },
-        { id: 15, stock: 'in-stock', quantity: 12 },
-        { id: 19, stock: 'in-stock', quantity: 12 },
-        { id: 20, stock: 'in-stock', quantity: 30 },
-        { id: 21, stock: 'in-stock', quantity: 30 },
-        { id: 25, stock: 'in-stock', quantity: 30 },
-        { id: 26, stock: 'in-stock', quantity: 8 },
-    ];
 }
 
-// Available Today Data (now loaded from storage)
-let availableToday = loadAvailableItemsFromStorage();
 // Get available items with stock info
 function getAvailableItems() {
     return menuItems
@@ -294,51 +125,51 @@ function displayAvailableItems(filter = 'all', category = 'all', searchQuery = '
     const itemsGrid = document.getElementById('available-items-grid');
     const noResults = document.getElementById('no-results');
     const availableCount = document.getElementById('available-count');
-    
+
     if (!itemsGrid) return;
-    
+
     let items = getAvailableItems();
-    
+
     // Filter by stock status
     if (filter !== 'all') {
         items = items.filter(item => item.stock === filter);
     }
-    
+
     // Filter by category
     if (category !== 'all') {
         items = items.filter(item => item.category === category);
     }
-    
+
     // Filter by search query
     if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        items = items.filter(item => 
+        items = items.filter(item =>
             item.name.toLowerCase().includes(query) ||
             item.description.toLowerCase().includes(query)
         );
     }
-    
+
     // Update available count
     if (availableCount) {
         availableCount.textContent = items.length;
     }
-    
+
     // Display items or no results
     if (items.length === 0) {
         itemsGrid.innerHTML = '';
         noResults.classList.remove('d-none');
         return;
     }
-    
+
     noResults.classList.add('d-none');
     itemsGrid.innerHTML = '';
-    
+
     items.forEach((item, index) => {
         const delay = (index % 8) * 100;
         const stockBadgeClass = item.stock === 'in-stock' ? 'in-stock' : 'low-stock';
         const stockText = item.stock === 'in-stock' ? 'In Stock' : 'Limited Stock';
         const isDisabled = item.stock === 'out-of-stock';
-        
+
         const itemCard = `
             <div class="col-md-6 col-lg-4 col-xl-3" data-aos="fade-up" data-aos-delay="${delay}">
                 <div class="available-item-card">
@@ -367,8 +198,8 @@ function displayAvailableItems(filter = 'all', category = 'all', searchQuery = '
                         </div>
                         <div class="item-footer">
                             <div class="item-price">₦${item.price.toLocaleString()}</div>
-                            <button class="add-to-cart-btn-available" 
-                                    onclick="addToCart(${item.id})" 
+                            <button class="add-to-cart-btn-available"
+                                    onclick="addToCart(${item.id})"
                                     ${isDisabled ? 'disabled' : ''}>
                                 <i class="fas fa-cart-plus"></i> Add
                             </button>
@@ -379,7 +210,7 @@ function displayAvailableItems(filter = 'all', category = 'all', searchQuery = '
         `;
         itemsGrid.innerHTML += itemCard;
     });
-    
+
     // Re-initialize AOS
     if (typeof AOS !== 'undefined') {
         AOS.refresh();
@@ -391,7 +222,7 @@ function setupAvailableTodayFilters() {
     let currentStockFilter = 'all';
     let currentCategory = 'all';
     let currentSearch = '';
-    
+
     // Stock filter buttons
     const stockFilterBtns = document.querySelectorAll('.stock-filter-btn');
     stockFilterBtns.forEach(btn => {
@@ -402,7 +233,7 @@ function setupAvailableTodayFilters() {
             displayAvailableItems(currentStockFilter, currentCategory, currentSearch);
         });
     });
-    
+
     // Category tabs
     const categoryTabs = document.querySelectorAll('.category-tab');
     categoryTabs.forEach(tab => {
@@ -413,7 +244,7 @@ function setupAvailableTodayFilters() {
             displayAvailableItems(currentStockFilter, currentCategory, currentSearch);
         });
     });
-    
+
     // Search input
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
@@ -428,20 +259,20 @@ function setupAvailableTodayFilters() {
 function updateDateTime() {
     const currentDateElement = document.getElementById('current-date');
     const lastUpdatedElement = document.getElementById('last-updated');
-    
+
     if (currentDateElement) {
-        const options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         };
         currentDateElement.textContent = new Date().toLocaleDateString('en-US', options);
     }
-    
+
     if (lastUpdatedElement) {
-        const timeOptions = { 
-            hour: '2-digit', 
+        const timeOptions = {
+            hour: '2-digit',
             minute: '2-digit'
         };
         lastUpdatedElement.textContent = new Date().toLocaleTimeString('en-US', timeOptions);
@@ -449,17 +280,17 @@ function updateDateTime() {
 }
 
 // Initialize Available Today page
-function initAvailableTodayPage() {
+async function initAvailableTodayPage() {
     updateDateTime();
-    displayAvailableItems();
+    await loadAvailableItemsFromFirebase(); // Load from Firebase
     setupAvailableTodayFilters();
-    
+
     // Update time every minute
     setInterval(() => {
         const lastUpdatedElement = document.getElementById('last-updated');
         if (lastUpdatedElement) {
-            const timeOptions = { 
-                hour: '2-digit', 
+            const timeOptions = {
+                hour: '2-digit',
                 minute: '2-digit'
             };
             lastUpdatedElement.textContent = new Date().toLocaleTimeString('en-US', timeOptions);
@@ -467,17 +298,10 @@ function initAvailableTodayPage() {
     }, 60000);
 }
 
-// Update the main initialization to include Available Today page
-// Add this to the DOMContentLoaded event listener in your existing script.js
-// Inside: document.addEventListener('DOMContentLoaded', () => { ... });
+// ===================================
+// END OF AVAILABLE TODAY SECTION
+// ===================================
 
-/* Add this condition to your existing page detection:
- 
-if (currentPage.includes('available-today.html')) {
-    initAvailableTodayPage();
-}
-
-*/
 
 // ===================================
 // CART MANAGEMENT
@@ -811,7 +635,7 @@ async function displayReviews() {
     try {
         // Query reviews and order them by date, newest first
         const querySnapshot = await reviewsCollection.orderBy("date", "desc").get();
-        
+
         if (querySnapshot.empty) {
             reviewsGrid.innerHTML = '<p class="text-center col-12">No reviews yet. Be the first to write one!</p>';
             return;
@@ -846,7 +670,7 @@ function setupReviewForm() {
             comment: formData.get('comment'),
             date: firebase.firestore.FieldValue.serverTimestamp() // Use server timestamp
         };
-        
+
         if (!newReview.name || !newReview.rating || !newReview.comment) {
             alert("Please fill out all required fields.");
             return;
@@ -943,9 +767,9 @@ function initReviewsPage() {
 }
 
 // ===================================
-// MAIN INITIALIZATION
+// MAIN INITIALIZATION - UPDATED
 // ===================================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     loadCart();
     addNotificationStyles();
     initNavbarScroll();
@@ -961,16 +785,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (currentPage.includes('reviews.html')) {
         initReviewsPage();
     } else if (currentPage.includes('available-today.html')) {
-        initAvailableTodayPage(); 
+        await initAvailableTodayPage(); // Await the async function
     }
 });
-
-
-
-
-
-
-
-
-
-
