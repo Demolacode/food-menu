@@ -550,6 +550,20 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     
     <script>
+        // --- NEW --- Simple password check
+        const ADMIN_PASSWORD = "Motun@2025";
+        const entered = sessionStorage.getItem('adminAuth');
+
+        if (entered !== ADMIN_PASSWORD) {
+            const password = prompt("🔐 Enter Admin Password:");
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminAuth', ADMIN_PASSWORD);
+            } else {
+                alert("❌ Access Denied!");
+                window.location.href = "index.html"; // Redirects if password is wrong
+            }
+        }
+
         // Firebase Configuration (same as your script.js)
         const firebaseConfig = {
             apiKey: "AIzaSyAp664yZBCUoLqtFA90v6cNw9KoFW6Y5sE",
@@ -566,38 +580,35 @@
         const db = firebase.firestore();
         const availableItemsCollection = db.collection('availableItems');
 
-        // Menu Items (same as your script.js)
+        // Menu Items (same as your script.js) - with fixed image links
         const menuItems = [
-    { id: 1, name: "Medium size take-away", category: "mains", price: 200, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQcb9WEs85cDkotFpeqh3jRC4v-mWcTu_KPg&s" },
-    { id: 2, name: "Big size take-away", category: "mains", price: 300, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DcK6qptngg3B-wjafNme4DWWa_CPhwkAFw&s" },
-    { id: 3, name: "Disposable take-away", category: "mains", price: 100, description: "To package anything you order", image: "https://cartnear.s3.us-east-2.amazonaws.com/ng/4d4c242892bc9bf5c3f2490c6352950b.jpg" },
-    { id: 4, name: "Jollof Rice", category: "mains", price: 300, description: "Nigerian Party jollof rice with rich taste - per spoon", image: "https://i.pinimg.com/originals/f9/6b/f9/f96bf993bc16fe5acf32df2bcb4ba443.jpg" },
-    { id: 5, name: "Fried Rice", category: "mains", price: 300, description: "Nigerian fried rice with rich taste - per spoon", image: "https://sisijemimah.com/wp-content/uploads/2015/07/IMG_0011_20200824075644597-1024x649.jpg" },
-    { id: 6, name: "Ewa Agoyin", category: "mains", price: 300, description: "Nigeria Delicious Ewa agoyin - per spoon", image: "https://i.pinimg.com/originals/16/72/4f/16724f8eb561af1fda6f606a9c5431c6.jpg" },
-    { id: 7, name: "Yummy Beef", category: "mains", price: 300, description: "Yummy fried and peppered beef", image: "https://www.preciouscore.com/wp-content/uploads/2023/01/Nigerian-Beef-Stew-fried-beef-720x1080.jpg" },
-    { id: 8, name: "Soft Bread", category: "mains", price: 400, description: "Nigerian soft and succulent bread - per piece", image: "https://static.wixstatic.com/media/3380d8_dcb9e7eda6cd4496b0a40d4805c50c91~mv2.jpg/v1/fit/w_800%2Ch_532%2Cal_c%2Cq_80/file.jpg" },
-    { id: 9, name: "Fried Fish", category: "mains", price: 500, description: "Yummy Fried fish - per pieces", image: "https://th.bing.com/th/id/R.49b7e8e906a3dc367283f8a0f396e767?rik=p%2fBTzCSMDe9wig&pid=ImgRaw&r=0" },
-    { id: 10, name: "Yummy Chicken", category: "mains", price: 2000, description: "Yummy Fried and Peppered Chicken", image: "https://thissillygirlskitchen.com/wp-content/uploads/2020/05/Southern-Fried-Chicken-20.jpg" },
-    { id: 11, name: "Boiled Egg", category: "mains", price: 300, description: "Yummy Boiled Tasty Egg - per pieces", image: "https://www.islandsmile.org/wp-content/uploads/2021/09/IMG_0810-2-495x640.jpg" },
-    { id: 12, name: "Stir Jollof Spaghetti with Beef", category: "mains", price: 2000, description: "Yummy Stir Jollof Spaghetti with beef", image: "https://1qfoodplatter.com/wp-content/uploads/2016/08/Jollof-Spaghetti-2-1140x760.jpg" },
-    { id: 13, name: "Stir Jollof Spaghetti with Chicken", category: "mains", price: 3000, description: "Yummy Stir jollof spaghetti with chicken", image: "https://i.pinimg.com/originals/76/9a/ea/769aeaa2f00eec91c31bd80fac154e80.jpg" },
-    { id: 14, name: "Chicken Pie", category: "sides", price: 800, description: "Yummy Chicken pie", image: "https://i.ytimg.com/vi/gvxK4-mEjTM/maxresdefault.jpg" },
-    // FIXED URL for Parfait
-    { id: 15, name: "Parfait", category: "drinks", price: 3000, description: "Yummy Parfait dessert made with love", image: "https://www.gfsstore.com/wp-content/uploads/2022/08/873082-PKG-6.jpg" },
-    { id: 16, name: "Chicken and Chips", category: "sides", price: 4000, description: "Yummy Chicken and chips made with love", image: "https://cdn.mos.cms.futurecdn.net/rJVxqTHxNZM2C4XYuTY5uA-1200-80.jpg" },
-    // FIXED URL for Zobo
-    { id: 17, name: "Zobo Drink", category: "drinks", price: 1000, description: "Freshly Made Hibiscus Drink", image: "https://www.ziingofood.com.ng/public/uploads/restaurant/items/item119152439.jpg" },
-    { id: 18, name: "Tigernut Drink", category: "drinks", price: 1500, description: "Freshly Made Tigernut Drink", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMmYKNiqR98cBRAu1QAD0GsQuP7PBRittjcA&s" },
-    // FIXED URL for Shawarma
-    { id: 19, name: "Shawarma", category: "sides", price: 3000, description: "Tasty Shawarma", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj24psxwdqELfKdMHjaqkmJiBldh0XpCF3_w&s" },
-    { id: 20, name: "Fried Plantain", category: "mains", price: 50, description: "Tasty Fried Plantain - per pieces", image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg" },
-    { id: 21, name: "Cow Skin", category: "mains", price: 200, description: "Peppered Cow skin(ponmo) - per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVRM6nO9ByOgmaSaNxSpljdlDl4lmrAr02YA&s" },
-    { id: 22, name: "Asun", category: "sides", price: 1000, description: "Peppered Goat Meat Asun - Per Plate", image: "https://img-global.cpcdn.com/recipes/341cce581709694f/600x852cq80/peppered-asun-goat-meat-recipe-main-photo.webp" },
-    { id: 23, name: "Barbecue Chicken", category: "sides", price: 2500, description: "Tasty barbecue Chicken- per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8EXnbwgBaNe2P7_0W1-NXmKn7ZrO8VMDRg&s" },
-    { id: 24, name: "Catfish Pepper Soup", category: "sides", price: 5000, description: "Tasty Pepper Soup - per plate", image: "https://dooneyskitchen.com/wp-content/uploads/2021/05/fresh-fish-peppersoup.jpg" },
-    { id: 25, name: "Coleslaw", category: "sides", price: 500, description: "Tasty coleslaw", image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238" },
-    { id: 26, name: "Soft Drinks", category: "drinks", price: 500, description: "Any soft drinks from 500 - 1500 naira", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjRs6M4e_gmalxMjHBy652BbMuiFZPyJBl_w&s" }
-];
+            { id: 1, name: "Medium size take-away", category: "mains", price: 200, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQcb9WEs85cDkotFpeqh3jRC4v-mWcTu_KPg&s" },
+            { id: 2, name: "Big size take-away", category: "mains", price: 300, description: "To package anything you order", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DcK6qptngg3B-wjafNme4DWWa_CPhwkAFw&s" },
+            { id: 3, name: "Disposable take-away", category: "mains", price: 100, description: "To package anything you order", image: "https://cartnear.s3.us-east-2.amazonaws.com/ng/4d4c242892bc9bf5c3f2490c6352950b.jpg" },
+            { id: 4, name: "Jollof Rice", category: "mains", price: 300, description: "Nigerian Party jollof rice with rich taste - per spoon", image: "https://i.pinimg.com/originals/f9/6b/f9/f96bf993bc16fe5acf32df2bcb4ba443.jpg" },
+            { id: 5, name: "Fried Rice", category: "mains", price: 300, description: "Nigerian fried rice with rich taste - per spoon", image: "https://sisijemimah.com/wp-content/uploads/2015/07/IMG_0011_20200824075644597-1024x649.jpg" },
+            { id: 6, name: "Ewa Agoyin", category: "mains", price: 300, description: "Nigeria Delicious Ewa agoyin - per spoon", image: "https://i.pinimg.com/originals/16/72/4f/16724f8eb561af1fda6f606a9c5431c6.jpg" },
+            { id: 7, name: "Yummy Beef", category: "mains", price: 300, description: "Yummy fried and peppered beef", image: "https://www.preciouscore.com/wp-content/uploads/2023/01/Nigerian-Beef-Stew-fried-beef-720x1080.jpg" },
+            { id: 8, name: "Soft Bread", category: "mains", price: 400, description: "Nigerian soft and succulent bread - per piece", image: "https://static.wixstatic.com/media/3380d8_dcb9e7eda6cd4496b0a40d4805c50c91~mv2.jpg/v1/fit/w_800%2Ch_532%2Cal_c%2Cq_80/file.jpg" },
+            { id: 9, name: "Fried Fish", category: "mains", price: 500, description: "Yummy Fried fish - per pieces", image: "https://th.bing.com/th/id/R.49b7e8e906a3dc367283f8a0f396e767?rik=p%2fBTzCSMDe9wig&pid=ImgRaw&r=0" },
+            { id: 10, name: "Yummy Chicken", category: "mains", price: 2000, description: "Yummy Fried and Peppered Chicken", image: "https://thissillygirlskitchen.com/wp-content/uploads/2020/05/Southern-Fried-Chicken-20.jpg" },
+            { id: 11, name: "Boiled Egg", category: "mains", price: 300, description: "Yummy Boiled Tasty Egg - per pieces", image: "https://www.islandsmile.org/wp-content/uploads/2021/09/IMG_0810-2-495x640.jpg" },
+            { id: 12, name: "Stir Jollof Spaghetti with Beef", category: "mains", price: 2000, description: "Yummy Stir Jollof Spaghetti with beef", image: "https://1qfoodplatter.com/wp-content/uploads/2016/08/Jollof-Spaghetti-2-1140x760.jpg" },
+            { id: 13, name: "Stir Jollof Spaghetti with Chicken", category: "mains", price: 3000, description: "Yummy Stir jollof spaghetti with chicken", image: "https://i.pinimg.com/originals/76/9a/ea/769aeaa2f00eec91c31bd80fac154e80.jpg" },
+            { id: 14, name: "Chicken Pie", category: "sides", price: 800, description: "Yummy Chicken pie", image: "https://i.ytimg.com/vi/gvxK4-mEjTM/maxresdefault.jpg" },
+            { id: 15, name: "Parfait", category: "drinks", price: 3000, description: "Yummy Parfait dessert made with love", image: "https://www.gfsstore.com/wp-content/uploads/2022/08/873082-PKG-6.jpg" },
+            { id: 16, name: "Chicken and Chips", category: "sides", price: 4000, description: "Yummy Chicken and chips made with love", image: "https://cdn.mos.cms.futurecdn.net/rJVxqTHxNZM2C4XYuTY5uA-1200-80.jpg" },
+            { id: 17, name: "Zobo Drink", category: "drinks", price: 1000, description: "Freshly Made Hibiscus Drink", image: "https://www.ziingofood.com.ng/public/uploads/restaurant/items/item119152439.jpg" },
+            { id: 18, name: "Tigernut Drink", category: "drinks", price: 1500, description: "Freshly Made Tigernut Drink", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMmYKNiqR98cBRAu1QAD0GsQuP7PBRittjcA&s" },
+            { id: 19, name: "Shawarma", category: "sides", price: 3000, description: "Tasty Shawarma", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj24psxwdqELfKdMHjaqkmJiBldh0XpCF3_w&s" },
+            { id: 20, name: "Fried Plantain", category: "mains", price: 50, description: "Tasty Fried Plantain - per pieces", image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg" },
+            { id: 21, name: "Cow Skin", category: "mains", price: 200, description: "Peppered Cow skin(ponmo) - per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVRM6nO9ByOgmaSaNxSpljdlDl4lmrAr02YA&s" },
+            { id: 22, name: "Asun", category: "sides", price: 1000, description: "Peppered Goat Meat Asun - Per Plate", image: "https://img-global.cpcdn.com/recipes/341cce581709694f/600x852cq80/peppered-asun-goat-meat-recipe-main-photo.webp" },
+            { id: 23, name: "Barbecue Chicken", category: "sides", price: 2500, description: "Tasty barbecue Chicken- per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8EXnbwgBaNe2P7_0W1-NXmKn7ZrO8VMDRg&s" },
+            { id: 24, name: "Catfish Pepper Soup", category: "sides", price: 5000, description: "Tasty Pepper Soup - per plate", image: "https://dooneyskitchen.com/wp-content/uploads/2021/05/fresh-fish-peppersoup.jpg" },
+            { id: 25, name: "Coleslaw", category: "sides", price: 500, description: "Tasty coleslaw", image: "https://unitedbakers.ca/cdn/shop/products/IMG_1236_1_1000x.jpg?v=1614976238" },
+            { id: 26, name: "Soft Drinks", category: "drinks", price: 500, description: "Any soft drinks from 500 - 1500 naira", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjRs6M4e_gmalxMjHBy652BbMuiFZPyJBl_w&s" }
+        ];
 
         let availableItems = [];
         let currentFilter = 'all';
@@ -815,7 +826,10 @@
         });
 
         // Initialize - Load items from Firebase
-        loadAvailableItems();
+        // Run only if password was correct
+        if (sessionStorage.getItem('adminAuth') === ADMIN_PASSWORD) {
+            loadAvailableItems();
+        }
     </script>
 </body>
-</html>
+</html>```
