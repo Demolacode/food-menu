@@ -246,24 +246,45 @@ const menuItems = [
    =================================== */
 
 // Available Today Data (simulates stock levels)
-const availableToday = [
-    { id: 4, stock: 'in-stock', quantity: 20 },
-    { id: 5, stock: 'in-stock', quantity: 15 },
-    { id: 6, stock: 'low-stock', quantity: 5 },
-    { id: 7, stock: 'in-stock', quantity: 12 },
-    { id: 8, stock: 'in-stock', quantity: 18 },
-    { id: 9, stock: 'low-stock', quantity: 3 },
-    { id: 10, stock: 'in-stock', quantity: 8 },
-    { id: 11, stock: 'in-stock', quantity: 25 },
-    { id: 12, stock: 'in-stock', quantity: 10 },
-    { id: 13, stock: 'low-stock', quantity: 4 },
-    { id: 14, stock: 'in-stock', quantity: 20 },
-    { id: 15, stock: 'in-stock', quantity: 12 },
-    { id: 20, stock: 'in-stock', quantity: 30 },
-    { id: 25, stock: 'in-stock', quantity: 30 },
-    { id: 26, stock: 'in-stock', quantity: 8 },
-];
+// Load Available Today Data from localStorage (syncs with admin panel)
+function loadAvailableItemsFromStorage() {
+    const stored = localStorage.getItem('availableItems');
+    if (stored) {
+        return JSON.parse(stored);
+    }
+    // Default items if nothing in storage
+    return [
+        { id: 1, stock: 'in-stock', quantity: 20 },
+        { id: 2, stock: 'in-stock', quantity: 20 },
+        { id: 3, stock: 'in-stock', quantity: 20 },
+        { id: 4, stock: 'in-stock', quantity: 20 },
+        { id: 5, stock: 'in-stock', quantity: 15 },
+        { id: 6, stock: 'low-stock', quantity: 5 },
+        { id: 7, stock: 'in-stock', quantity: 12 },
+        { id: 8, stock: 'in-stock', quantity: 18 },
+        { id: 9, stock: 'low-stock', quantity: 3 },
+        { id: 10, stock: 'in-stock', quantity: 8 },
+        { id: 11, stock: 'in-stock', quantity: 25 },
+        { id: 12, stock: 'in-stock', quantity: 10 },
+        { id: 13, stock: 'low-stock', quantity: 4 },
+        { id: 14, stock: 'in-stock', quantity: 20 },
+        { id: 15, stock: 'in-stock', quantity: 12 },
+        { id: 16, stock: 'in-stock', quantity: 12 },
+        { id: 17, stock: 'in-stock', quantity: 12 },
+        { id: 18, stock: 'in-stock', quantity: 12 },
+        { id: 19, stock: 'in-stock', quantity: 12 },
+        { id: 20, stock: 'in-stock', quantity: 30 },
+        { id: 21, stock: 'in-stock', quantity: 30 },
+        { id: 22, stock: 'in-stock', quantity: 30 },
+        { id: 23, stock: 'in-stock', quantity: 30 },
+        { id: 24, stock: 'in-stock', quantity: 30 },
+        { id: 25, stock: 'in-stock', quantity: 30 },
+        { id: 26, stock: 'in-stock', quantity: 8 },
+    ];
+}
 
+// Available Today Data (now loaded from storage)
+let availableToday = loadAvailableItemsFromStorage();
 // Get available items with stock info
 function getAvailableItems() {
     return menuItems
@@ -952,6 +973,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initAvailableTodayPage(); 
     }
 });
+
 
 
 
