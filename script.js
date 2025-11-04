@@ -254,9 +254,6 @@ function loadAvailableItemsFromStorage() {
     }
     // Default items if nothing in storage
     return [
-        { id: 1, stock: 'in-stock', quantity: 20 },
-        { id: 2, stock: 'in-stock', quantity: 20 },
-        { id: 3, stock: 'in-stock', quantity: 20 },
         { id: 4, stock: 'in-stock', quantity: 20 },
         { id: 5, stock: 'in-stock', quantity: 15 },
         { id: 6, stock: 'low-stock', quantity: 5 },
@@ -269,15 +266,9 @@ function loadAvailableItemsFromStorage() {
         { id: 13, stock: 'low-stock', quantity: 4 },
         { id: 14, stock: 'in-stock', quantity: 20 },
         { id: 15, stock: 'in-stock', quantity: 12 },
-        { id: 16, stock: 'in-stock', quantity: 12 },
-        { id: 17, stock: 'in-stock', quantity: 12 },
-        { id: 18, stock: 'in-stock', quantity: 12 },
         { id: 19, stock: 'in-stock', quantity: 12 },
         { id: 20, stock: 'in-stock', quantity: 30 },
         { id: 21, stock: 'in-stock', quantity: 30 },
-        { id: 22, stock: 'in-stock', quantity: 30 },
-        { id: 23, stock: 'in-stock', quantity: 30 },
-        { id: 24, stock: 'in-stock', quantity: 30 },
         { id: 25, stock: 'in-stock', quantity: 30 },
         { id: 26, stock: 'in-stock', quantity: 8 },
     ];
@@ -973,6 +964,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initAvailableTodayPage(); 
     }
 });
+
 
 
 
