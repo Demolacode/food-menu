@@ -50,7 +50,7 @@ const menuItems = [
     { id: 17, name: "Zobo Drink", category: "drinks", price: 1000, description: "Freshly Made Hibiscus Drink", image: "https://www.ziingofood.com.ng/public/uploads/restaurant/items/item119152439.jpg" },
     { id: 18, name: "Tigernut Drink", category: "drinks", price: 1500, description: "Freshly Made Tigernut Drink", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMmYKNiqR98cBRAu1QAD0GsQuP7PBRittjcA&s" },
     // FIXED URL for Shawarma
-    { id: 19, name: "Shawarma", category: "sides", price: 3000, description: "Tasty Shawarma", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj24psxwdqELfKdMHjaqkmJiBldh0XpCF3_w&s" },
+    { id: 19, name: "Shawarma", category: "sides", price: 3000, description: "Tasty Shawarma", image: "https://kikifoodies.com/wp-content/uploads/2025/06/photo-output.jpeg" },
     { id: 20, name: "Fried Plantain", category: "mains", price: 50, description: "Tasty Fried Plantain - per pieces", image: "https://simshomekitchen.com/wp-content/uploads/2021/09/Cooked-plantain-in-a-white-plate-and-a-silver-fork.jpg" },
     { id: 21, name: "Cow Skin", category: "mains", price: 200, description: "Peppered Cow skin(ponmo) - per pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVRM6nO9ByOgmaSaNxSpljdlDl4lmrAr02YA&s" },
     { id: 22, name: "Asun", category: "sides", price: 1000, description: "Peppered Goat Meat Asun - Per Plate", image: "https://img-global.cpcdn.com/recipes/341cce581709694f/600x852cq80/peppered-asun-goat-meat-recipe-main-photo.webp" },
@@ -788,3 +788,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         await initAvailableTodayPage(); // Await the async function
     }
 });
+
